@@ -9,6 +9,7 @@ class Game:
         pygame.init()               # initialise pygame for use
         pygame.mixer.init()         # initialises pygame's sound system for use
         self.screen = pygame.display.set_mode(flags=pygame.FULLSCREEN) # create the game screen
+        settings.WIDTH, settings.HEIGHT = self.screen.get_size()
         self.clock = pygame.time.Clock() # creates the clock object
         self.running = True         # keeps the main game loop running
 
@@ -19,7 +20,7 @@ class Game:
         self.start_screen = None    # holds the start menu
         self.main_menu = None       # holds the main menu
         
-        settings.game = self        # puts the game object into settings
+        settings.GAME = self        # puts the game object into settings
 
     def run(self) -> None:
         """responsible for running the game - main game loop"""
