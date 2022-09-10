@@ -1,6 +1,7 @@
 import pygame
 import sys 
 
+from main_menu import MainMenu
 import settings
 
 class Game:
@@ -16,9 +17,9 @@ class Game:
         self.player_username = None # holds the player's username once signed up/logged in
         self.player_stats = None    # holds the player stats object once signed up/logged in
 
-        self.state = "start"        # current state of the game (start or main menu)
+        self.state = "main menu"    # current state of the game (start or main menu)
         self.start_screen = None    # holds the start menu
-        self.main_menu = None       # holds the main menu
+        self.main_menu = MainMenu() # holds the main menu
         
         settings.GAME = self        # puts the game object into settings
 
@@ -38,7 +39,7 @@ class Game:
         if self.state == "start":       # updates and draws the start menu
             pass
         elif self.state == "main menu": # updates and draws the main menu
-            pass
+            self.main_menu.update()
 
         pygame.display.update()     # updates the game screen so all drawn images are updated
     
