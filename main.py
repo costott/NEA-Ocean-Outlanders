@@ -16,7 +16,7 @@ class Game:
         self.player_username = None # holds the player's username once signed up/logged in
         self.player_stats = None    # holds the player stats object once signed up/logged in
 
-        self.state = "start"        # currest state of the game (start or main menu)
+        self.state = "start"        # current state of the game (start or main menu)
         self.start_screen = None    # holds the start menu
         self.main_menu = None       # holds the main menu
         

@@ -1,4 +1,5 @@
 import pygame
+
 import settings
 
 class Button:
@@ -79,3 +80,37 @@ class Menu:
         for button in self.buttons:
             button.update()
             button.draw(self.screen)
+
+class HeadingMenu(Menu):
+    """base menu class with heading at top"""
+    def __init__(self, buttons: list[Button], heading: str):
+        super().__init__(buttons)
+
+        self.heading = pygame.font.Font(None, settings.HEADING_TEXT_SIZE).render(heading, True, 
+                                                                                 settings.BUTTON_TEXT_COLOUR)
+
+        self.heading_box = self.heading.get_rect().inflate(35, 80)  # create box around heading text
+        self.heading_box.midtop = (settings.WIDTH/2,0)              # align box to top middle of screen
+
+        # centre heading text in middle of box
+        self.heading_rect = self.heading.get_rect(center = self.heading_box.center)
+    
+    def update(self) -> None:
+        """called once per frame"""
+        super().update() # Menu update
+
+        # main bar and border
+        pygame.draw.rect(self.screen, settings.LIGHT_BROWN, (0,0,settings.WIDTH,settings.BAR_HEIGHT)) 
+        pygame.draw.rect(self.screen, settings.DARK_BROWN, (0,0,settings.WIDTH,settings.BAR_HEIGHT), 
+                         width=settings.HEADING_BORDER_SIZE) 
+
+        # heading box and border
+        pygame.draw.rect(self.screen, settings.LIGHT_BROWN, self.heading_box)
+        pygame.draw.rect(self.screen, settings.DARK_BROWN, self.heading_box, width=settings.HEADING_BORDER_SIZE)
+        # gets rid of heading box border in main bar
+        pygame.draw.rect(self.screen, settings.LIGHT_BROWN, (self.heading_box.left,settings.HEADING_BORDER_SIZE,
+                         self.heading_box.width+settings.HEADING_BORDER_SIZE,
+                         settings.BAR_HEIGHT-2*settings.HEADING_BORDER_SIZE))
+
+        # heading text
+        self.screen.blit(self.heading, self.heading_rect)
