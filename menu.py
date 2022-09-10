@@ -3,7 +3,7 @@ import pygame
 import settings
 
 class Button:
-    """Interactable button in menus"""
+    """Interactible button in menus"""
     def __init__(self, text: str, size: tuple[float, float], text_size: int, center_pos: tuple[float, float], 
                  unhover_colour: pygame.Color, hover_colour: pygame.Color, border_colour: pygame.Color, action):
         """size: (width, height)"""
