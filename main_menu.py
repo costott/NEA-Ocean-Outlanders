@@ -1,6 +1,7 @@
 import pygame
 
 from menu import HeadingMenu, Button
+from play import Play
 import settings
 
 class MainMenu(HeadingMenu):
@@ -17,10 +18,9 @@ class MainMenu(HeadingMenu):
         if self.state == "menu":
             super().update() # update menu
         elif self.state == "run":
-            # update run
-            pass
+            self.run.update()
     
     def start_run(self) -> None:
         """starts a new run"""
-        self.run = None # creates a new run
+        self.run = Play() # creates a new run
         self.state = "run"

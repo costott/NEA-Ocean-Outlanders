@@ -85,7 +85,8 @@ class HeadingMenu(Menu):
     """base menu class with heading at top"""
     def __init__(self, buttons: list[Button], heading: str):
         super().__init__(buttons)
-
+        
+        # create heading text
         self.heading = pygame.font.Font(None, settings.HEADING_TEXT_SIZE).render(heading, True, 
                                                                                  settings.BUTTON_TEXT_COLOUR)
 
@@ -99,12 +100,12 @@ class HeadingMenu(Menu):
         """called once per frame"""
         super().update() # Menu update
 
-        # main bar and border
+        # draw main bar and border
         pygame.draw.rect(self.screen, settings.LIGHT_BROWN, (0,0,settings.WIDTH,settings.BAR_HEIGHT)) 
         pygame.draw.rect(self.screen, settings.DARK_BROWN, (0,0,settings.WIDTH,settings.BAR_HEIGHT), 
                          width=settings.HEADING_BORDER_SIZE) 
 
-        # heading box and border
+        # draw heading box and border
         pygame.draw.rect(self.screen, settings.LIGHT_BROWN, self.heading_box)
         pygame.draw.rect(self.screen, settings.DARK_BROWN, self.heading_box, width=settings.HEADING_BORDER_SIZE)
         # gets rid of heading box border in main bar
@@ -112,5 +113,5 @@ class HeadingMenu(Menu):
                          self.heading_box.width+settings.HEADING_BORDER_SIZE,
                          settings.BAR_HEIGHT-2*settings.HEADING_BORDER_SIZE))
 
-        # heading text
+        # draw heading text
         self.screen.blit(self.heading, self.heading_rect)
