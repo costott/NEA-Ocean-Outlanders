@@ -1,4 +1,3 @@
-from threading import currentThread
 import pygame
 
 import settings
@@ -38,14 +37,14 @@ class HUD:
         inner_middle_square = tools.scaled_rect(middle_square, 0.7, 0.7)
         
         # draw all elements
-        pygame.draw.rect(self.screen, settings.LIGHT_BROWN, bar, border_radius=5)
-        pygame.draw.rect(self.screen, settings.BROWN, inner_bar, border_radius=5)
+        pygame.draw.rect(self.screen, settings.LIGHT_BROWN, bar, border_radius=settings.BAR_RADIUS)
+        pygame.draw.rect(self.screen, settings.BROWN, inner_bar, border_radius=settings.BAR_RADIUS)
 
-        pygame.draw.rect(self.screen, settings.BROWN, middle_square, border_radius=5)
-        pygame.draw.rect(self.screen, settings.WHITE, inner_middle_square, border_radius=5)
+        pygame.draw.rect(self.screen, settings.BROWN, middle_square, border_radius=settings.BAR_RADIUS)
+        pygame.draw.rect(self.screen, settings.WHITE, inner_middle_square, border_radius=settings.BAR_RADIUS)
         
-        pygame.draw.rect(self.screen, settings.DARK_BLUE, current_square, border_radius=5)
-        pygame.draw.rect(self.screen, settings.LIGHT_BLUE, inner_current_square, border_radius=5)
+        pygame.draw.rect(self.screen, settings.DARK_BLUE, current_square, border_radius=settings.BAR_RADIUS)
+        pygame.draw.rect(self.screen, settings.LIGHT_BLUE, inner_current_square, border_radius=settings.BAR_RADIUS)
 
     def sailing_hud(self) -> None:
         """draws the sailing bar onto the screen"""
@@ -66,11 +65,11 @@ class HUD:
         inner_bottom_square = tools.scaled_rect(bottom_square, 0.7, 0.7)
 
         # draw all elements
-        pygame.draw.rect(self.screen, settings.LIGHT_BROWN, bar, border_radius=5)
-        pygame.draw.rect(self.screen, settings.BROWN, inner_bar, border_radius=5)
+        pygame.draw.rect(self.screen, settings.LIGHT_BROWN, bar, border_radius=settings.BAR_RADIUS)
+        pygame.draw.rect(self.screen, settings.BROWN, inner_bar, border_radius=settings.BAR_RADIUS)
 
-        pygame.draw.rect(self.screen, settings.BROWN, bottom_square, border_radius=5)
-        pygame.draw.rect(self.screen, settings.WHITE, inner_bottom_square, border_radius=5)
+        pygame.draw.rect(self.screen, settings.BROWN, bottom_square, border_radius=settings.BAR_RADIUS)
+        pygame.draw.rect(self.screen, settings.WHITE, inner_bottom_square, border_radius=settings.BAR_RADIUS)
         
-        pygame.draw.rect(self.screen, settings.DARK_BLUE, current_square, border_radius=5)
-        pygame.draw.rect(self.screen, settings.LIGHT_BLUE, inner_current_square, border_radius=5)
+        pygame.draw.rect(self.screen, settings.DARK_BLUE, current_square, border_radius=settings.BAR_RADIUS)
+        pygame.draw.rect(self.screen, settings.LIGHT_BLUE, inner_current_square, border_radius=settings.BAR_RADIUS)
