@@ -27,7 +27,7 @@ class Boat(pygame.sprite.Sprite): # boat is built upon pygame's sprite class
         self.angle = 0                # 0 = north, +ve = anticlockwise (deg)
         self.angle_velocity = 0       # current angle velocity (deg/second)
 
-        self.speed = settings.BOAT_MAX_ANGLE_SPEED
+        self.speed = settings.BOAT_BASE_SPEED
 
         self.cannons = []
 
@@ -49,21 +49,8 @@ class Boat(pygame.sprite.Sprite): # boat is built upon pygame's sprite class
     
     def update(self) -> None:
         """called once per frame"""
-        self.input()  # TEMPORARY FOR TESTING
         self.rotate()
         self.move()
-    
-    def input(self) -> None:
-        """steer boat with player input"""
-        keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_a]: # steer anticlockwise
-            self.angle_velocity += self.ANGLE_INPUT_ACCELERATION * 1/tools.get_fps()      # increase angle
-            self.angle_velocity = min(self.angle_velocity, settings.BOAT_MAX_ANGLE_SPEED) # limit maximum
-        
-        if keys[pygame.K_d]: # steer clockwise
-            self.angle_velocity -= self.ANGLE_INPUT_ACCELERATION * 1/tools.get_fps()       # decrease angle
-            self.angle_velocity = max(self.angle_velocity, -settings.BOAT_MAX_ANGLE_SPEED) # limit minimum
     
     def rotate(self) -> None:
         """rotates boat by its angle"""
