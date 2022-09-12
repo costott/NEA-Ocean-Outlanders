@@ -1,5 +1,6 @@
 import pygame
 
+from boat import Boat
 import settings
 import tools
 
@@ -18,10 +19,12 @@ class Play:
         self.paused = False     # pauses/resumes the run
 
         self.time = 0           # time spent in the run (in seconds)
+
+        settings.current_run = self
     
     def create_map(self) -> None:
         """creates map at start of game"""
-        pass
+        self.test_boat = Boat([self.screen_sprites], (settings.WIDTH/2,settings.HEIGHT/2))
     
     def update(self) -> None:
         """called once per frame"""

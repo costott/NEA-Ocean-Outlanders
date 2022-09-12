@@ -4,7 +4,8 @@ HEIGHT = 0
 
 TARGET_FPS = 200 # how many times the game is aiming to update every second
 
-GAME = None # holds the game object for easy access
+GAME = None        # holds the game object for easy access
+current_run = None # holds current run for easy access
 
 # COLOURS
 LIGHT_BROWN = "#B47B41"
@@ -23,3 +24,8 @@ BUTTON_BORDER_SIZE = 5          # size (in pixels) of the border around buttons
 BAR_HEIGHT = 80         # height of top bar
 HEADING_BORDER_SIZE = 5 # border width of heading and top bar borders
 HEADING_TEXT_SIZE = 100 # size of the heading text
+
+# BOAT
+BOAT_SCALE = 1              # multiplier for the boat image size
+BOAT_MAX_ANGLE_SPEED = 20   # maximum speed the boat can turn in pixels/second
+BOAT_BASE_SPEED = 50        # absolute speed of the boat in pixels/second
