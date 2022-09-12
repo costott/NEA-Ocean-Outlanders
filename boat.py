@@ -39,7 +39,7 @@ class Boat(pygame.sprite.Sprite): # boat is built upon pygame's sprite class
 
         # align+draw images into correct place in the container (images set by specific boat)
         for boat_img in self.images:
-            boat_img.rect.center = rect.center + boat_img.center_offset # algin
+            boat_img.rect.center = rect.center + boat_img.centre_offset # algin
             boat_img.image.set_alpha(boat_img.alpha)                    # set transparency
             orig_img.blit(boat_img.image, boat_img.rect)                # draw
         
