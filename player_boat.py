@@ -10,11 +10,13 @@ class PlayerBoat(Boat):
         super().__init__(groups, start_pos)
         self.z = 1
 
-        self.state = "steering" # current state of the boat (switching, steering, sails, cannon)
+        self.state = "sailing" # current state of the boat (switching, steering, sailing, cannon)
 
         self.get_sails()
         self.images = [self.hull] + self.sails # all boat images to be used to compile main image
         self.make_main_boat_image()
+
+        self.max_speed = settings.BOAT_BASE_SPEED
     
     def get_sails(self) -> None:
         """get all player boat sail images"""
@@ -33,6 +35,8 @@ class PlayerBoat(Boat):
         """controls what the boat is doing in different states"""
         if self.state == "steering":
             self.steer()
+        elif self.state == "sailing":
+            self.sailing()
     
     def steer(self) -> None:
         """steer boat with player input"""
@@ -45,3 +49,15 @@ class PlayerBoat(Boat):
         if keys[pygame.K_d]: # steer clockwise
             self.angle_velocity -= settings.PB_ANGLE_INP_ACCEL * 1/tools.get_fps()         # decrease angle
             self.angle_velocity = max(self.angle_velocity, -settings.BOAT_MAX_ANGLE_SPEED) # limit minimum
+    
+    def sailing(self) -> None:
+        """change the speed the boat is moving"""
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_w]: # increase speed
+            self.speed += settings.PB_INP_ACCEL * 1/tools.get_fps() # increase speed
+            self.speed = min(self.speed, self.max_speed)            # limit maximum
+        
+        if keys[pygame.K_s]: # decrease speed
+            self.speed -= settings.PB_INP_ACCEL * 1/tools.get_fps() # decrease speed
+            self.speed = max(self.speed, 0)                         # limit minimum
