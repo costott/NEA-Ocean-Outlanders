@@ -29,3 +29,6 @@ HEADING_TEXT_SIZE = 100 # size of the heading text
 BOAT_SCALE = 1              # multiplier for the boat image size
 BOAT_MAX_ANGLE_SPEED = 20   # maximum speed the boat can turn in pixels/second
 BOAT_BASE_SPEED = 50        # absolute speed of the boat in pixels/second
+# PLAYER BOAT
+# how much the angle velocity can change per second
+PLAYER_BOAT_ANGLE_INPUT_ACCELERATION = BOAT_MAX_ANGLE_SPEED/3
