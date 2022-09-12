@@ -24,8 +24,9 @@ class HUD:
 
         # create square to represent current angle velocity
         current_square = pygame.Rect(0,bar.top,bar.height,bar.height)
-        current_square.centerx = bar.centerx + (bar.width/2)*(settings.current_run.player_boat.angle_velocity/
-                                                              settings.BOAT_MAX_ANGLE_SPEED)
+        current_square.centerx = bar.centerx - (bar.width/2-current_square.width/2)*(
+                                                            settings.current_run.player_boat.angle_velocity/
+                                                            settings.BOAT_MAX_ANGLE_SPEED)
         inner_current_square = tools.scaled_rect(current_square, 0.7, 0.7)
 
         # create square in middle of bar
