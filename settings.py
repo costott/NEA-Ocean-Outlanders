@@ -9,10 +9,12 @@ current_run = None # holds current run for easy access
 
 # COLOURS
 LIGHT_BROWN = "#B47B41"
+BROWN = "#8d6333"
 DARK_BROWN = "#6F4D28"
 LIGHT_BLUE = "#6B93B8"
 LIGHT_BLUE_HOVER = "#7DA5CA"
 DARK_BLUE = "#46627A"
+WHITE = "#d8e3ed"
 
 # BUTTONS
 BUTTON_GROW = 1.1               # multiplies the button size for maximum growth size

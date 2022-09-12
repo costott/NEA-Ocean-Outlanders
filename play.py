@@ -1,6 +1,7 @@
 import pygame
 
 from player_boat import PlayerBoat
+from hud import HUD
 import settings
 import tools
 
@@ -8,7 +9,7 @@ class Play:
     """class for a run"""
     def __init__(self):
         self.screen = pygame.display.get_surface() # gets game screen for easy access
-        self.UI = None          # holds the UI object
+        self.HUD = HUD()        # holds the HUD object
         self.pause_menu = None  # holds the run's pause menu
 
         self.screen_sprites = pygame.sprite.Group()  # sprites visible on screen
@@ -33,6 +34,8 @@ class Play:
             self.screen_sprites.update()
 
             self.timer()
+
+            self.HUD.draw()
     
     def timer(self) -> None:
         """timer counts up"""
