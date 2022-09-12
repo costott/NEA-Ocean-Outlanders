@@ -1,6 +1,6 @@
 import pygame
 
-from boat import Boat
+from player_boat import PlayerBoat
 import settings
 import tools
 
@@ -24,7 +24,7 @@ class Play:
     
     def create_map(self) -> None:
         """creates map at start of game"""
-        self.test_boat = Boat([self.screen_sprites], (settings.WIDTH/2,settings.HEIGHT/2))
+        self.player_boat = PlayerBoat([self.screen_sprites], (settings.WIDTH/2,settings.HEIGHT/2))
     
     def update(self) -> None:
         """called once per frame"""
