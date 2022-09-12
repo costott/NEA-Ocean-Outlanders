@@ -27,9 +27,9 @@ class Boat(pygame.sprite.Sprite): # boat is built upon pygame's sprite class
         self.angle = 0                # 0 = north, +ve = anticlockwise (deg)
         self.angle_velocity = 0       # current angle velocity (deg/second)
 
-        self.speed = settings.BOAT_BASE_SPEED
+        self.speed = settings.BOAT_BASE_SPEED # speed in angle's direction
 
-        self.cannons = []
+        self.cannons = [] # boat's cannons
 
     def make_main_boat_image(self) -> None:
         """compile all boat images into one image"""
@@ -69,13 +69,15 @@ class Boat(pygame.sprite.Sprite): # boat is built upon pygame's sprite class
         self.pos.x -= self.speed * math.sin(self.angle * (math.pi/180)) * 1/tools.get_fps() # move x
         self.rect.center = self.pos # move boat
         if self.collision():
-            self.pos.x = old_x
+            self.pos.x = old_x # undo movement
         
         old_y = self.pos.x # same thing for boat's y value
         self.pos.y -= self.speed * math.cos(self.angle * (math.pi/180)) * 1/tools.get_fps()
         self.rect.center = self.pos
         if self.collision():
             self.pos.y = old_y
+        
+        self.rect.center = self.pos # final rect
     
     def collision(self) -> bool:
         """checks for boat collision with collide sprites"""
