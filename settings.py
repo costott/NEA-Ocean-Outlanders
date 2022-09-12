@@ -33,6 +33,5 @@ BOAT_MAX_ANGLE_SPEED = 20   # maximum speed the boat can turn in pixels/second
 BOAT_BASE_SPEED = 50        # absolute speed of the boat in pixels/second
 
 # PLAYER BOAT
-# how much the angle velocity can change per second
-PB_ANGLE_INP_ACCEL = BOAT_MAX_ANGLE_SPEED/3
-PB_INP_ACCEL = BOAT_BASE_SPEED/3
+PB_ANGLE_INP_ACCEL = BOAT_MAX_ANGLE_SPEED/3 # how much the angle velocity can change per second
+PB_INP_ACCEL = BOAT_BASE_SPEED/3            # how much the speed can change per second
