@@ -18,8 +18,30 @@ class PlayerBoat(Boat):
     
     def get_sails(self) -> None:
         """get all player boat sail images"""
-        self.main_sail = BoatImage("main_sail_blue.png", (0,0))
-        self.nest = BoatImage("nest.png", (0,0))
-        self.flag = BoatImage("flag_blue.png", (0,0))
-        self.small_sail = BoatImage("small_sail_blue.png", (0,0))
+        self.main_sail = BoatImage("main_sail_blue.png", (0,-10))
+        self.nest = BoatImage("nest.png", (0,self.main_sail.centre_offset.y-23))
+        self.flag = BoatImage("flag_blue.png", (0,self.nest.centre_offset.y-10))
+        self.small_sail = BoatImage("small_sail_blue.png", (0,31))
         self.sails = [self.main_sail, self.nest, self.flag, self.small_sail]
+    
+    def update(self) -> None:
+        """called once per frame"""
+        self.states()
+        super().update() # boat update
+    
+    def states(self) -> None:
+        """controls what the boat is doing in different states"""
+        if self.state == "steering":
+            self.steer()
+    
+    def steer(self) -> None:
+        """steer boat with player input"""
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_a]: # steer anticlockwise
+            self.angle_velocity += settings.PB_ANGLE_INP_ACCEL * 1/tools.get_fps()        # increase angle
+            self.angle_velocity = min(self.angle_velocity, settings.BOAT_MAX_ANGLE_SPEED) # limit maximum
+        
+        if keys[pygame.K_d]: # steer clockwise
+            self.angle_velocity -= settings.PB_ANGLE_INP_ACCEL * 1/tools.get_fps()         # decrease angle
+            self.angle_velocity = max(self.angle_velocity, -settings.BOAT_MAX_ANGLE_SPEED) # limit minimum
