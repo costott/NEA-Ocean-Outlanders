@@ -76,6 +76,9 @@ class PlayerBoat(Boat):
     
     def control_cannon(self) -> None:
         """control active cannnon"""
-        for cannon in self.cannons: cannon.update()
-        self.active_cannon.aim_cannon()
-        self.make_main_boat_image()
+        self.active_cannon.aim_cannon()             # aim active cannon
+        for cannon in self.cannons: cannon.update() # update all cannons
+        self.make_main_boat_image()                 # remake boat image
+
+        if pygame.mouse.get_pressed()[0]: # left mouse clicked
+            self.active_cannon.shoot()
