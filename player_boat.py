@@ -13,9 +13,9 @@ class PlayerBoat(Boat):
 
         self.state = "cannons" # current state of the boat (switching, steering, sailing, cannons)
 
-        self.cannons.append(Cannon(self, (15,20)))
-        self.cannons.append(Cannon(self, (-15, 20)))
-        self.active_cannon = self.cannons[0] # cannon being controlled when in the cannons state
+        self.cannons.append(Cannon(self, (15,20), True))
+        self.cannons.append(Cannon(self, (-15, 20), False))
+        self.active_cannon = self.cannons[1] # cannon being controlled when in the cannons state
 
         self.get_sails()
         # all boat images to be used to compile main image
@@ -23,6 +23,10 @@ class PlayerBoat(Boat):
         self.make_main_boat_image()
 
         self.max_speed = settings.BOAT_BASE_SPEED
+
+        # FOR TESTING CANNON AIMING
+        self.speed = 0
+        self.angle_velocity = 5
     
     def get_sails(self) -> None:
         """get all player boat sail images"""
@@ -73,4 +77,5 @@ class PlayerBoat(Boat):
     def control_cannon(self) -> None:
         """control active cannnon"""
         for cannon in self.cannons: cannon.update()
+        self.active_cannon.aim_cannon()
         self.make_main_boat_image()
