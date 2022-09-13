@@ -23,10 +23,3 @@ class Cannon(BoatImage):
         """rotates image by angle"""
         self.image = pygame.transform.rotozoom(self.orig_img, self.relative_angle, 1) # new rotated image 
         self.rect = self.image.get_rect(center = self.rect.center)                    # container around image
-
-    def test_rotation(self) -> None:
-        """quick rotation test"""
-        self.relative_angle += 1
-        # make sure 0 <= angle <= 360
-        if self.relative_angle < 0: self.relative_angle += 360
-        if self.relative_angle > 360: self.relative_angle -= 360

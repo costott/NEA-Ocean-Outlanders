@@ -72,6 +72,5 @@ class PlayerBoat(Boat):
     
     def control_cannon(self) -> None:
         """control active cannnon"""
-        self.active_cannon.test_rotation()
         for cannon in self.cannons: cannon.update()
         self.make_main_boat_image()
