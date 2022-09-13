@@ -21,7 +21,7 @@ class Cannon(BoatImage):
         self.pos = self.boat.pos - self.centre_offset.rotate(-self.boat.angle) # centre position
 
         self.fire_rate = 0.5       # amount of seconds where the cannon can't be fired after being shot 
-        self.fire_timer = 0        # counts down to 0 when fired to tell the cannonball when it can fire again
+        self.fire_timer = 0        # counts down to 0 when fired to tell the cannon when it can fire again
         self.holding_left_mouse = False # used to make sure mouse gets lifted before firing again
     
     def update(self) -> None:
