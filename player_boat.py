@@ -11,10 +11,10 @@ class PlayerBoat(Boat):
         super().__init__(groups, start_pos)
         self.z = 1
 
-        self.state = "steering" # current state of the boat (switching, steering, sailing, cannons)
+        self.state = "cannons" # current state of the boat (switching, steering, sailing, cannons)
 
-        self.cannons.append(Cannon(self, (15,20), 90))
-        self.cannons.append(Cannon(self, (-15, 20), 270))
+        self.cannons.append(Cannon(self, (15,20)))
+        self.cannons.append(Cannon(self, (-15, 20)))
         self.active_cannon = self.cannons[0] # cannon being controlled when in the cannons state
 
         self.get_sails()
