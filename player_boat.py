@@ -1,6 +1,7 @@
 import pygame
 
 from boat import Boat, BoatImage
+from cannon import Cannon
 import settings
 import tools
 
@@ -10,10 +11,15 @@ class PlayerBoat(Boat):
         super().__init__(groups, start_pos)
         self.z = 1
 
-        self.state = "sailing" # current state of the boat (switching, steering, sailing, cannon)
+        self.state = "steering" # current state of the boat (switching, steering, sailing, cannons)
+
+        self.cannons.append(Cannon(self, (15,20), 90))
+        self.cannons.append(Cannon(self, (-15, 20), 270))
+        self.active_cannon = self.cannons[0] # cannon being controlled when in the cannons state
 
         self.get_sails()
-        self.images = [self.hull] + self.sails # all boat images to be used to compile main image
+        # all boat images to be used to compile main image
+        self.images = [self.hull] + self.cannons + self.sails 
         self.make_main_boat_image()
 
         self.max_speed = settings.BOAT_BASE_SPEED
@@ -37,6 +43,8 @@ class PlayerBoat(Boat):
             self.steer()
         elif self.state == "sailing":
             self.sailing()
+        elif self.state == "cannons":
+            self.control_cannon()
     
     def steer(self) -> None:
         """steer boat with player input"""
@@ -61,3 +69,9 @@ class PlayerBoat(Boat):
         if keys[pygame.K_s]: # decrease speed
             self.speed -= settings.PB_INP_ACCEL * 1/tools.get_fps() # decrease speed
             self.speed = max(self.speed, 0)                         # limit minimum
+    
+    def control_cannon(self) -> None:
+        """control active cannnon"""
+        self.active_cannon.test_rotation()
+        for cannon in self.cannons: cannon.update()
+        self.make_main_boat_image()
