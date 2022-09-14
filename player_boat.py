@@ -22,7 +22,11 @@ class PlayerBoat(Boat):
         self.images = [self.hull] + self.cannons + self.sails 
         self.make_main_boat_image()
 
-        self.max_speed = settings.BOAT_BASE_SPEED
+        self.max_speed = settings.BOAT_BASE_SPEED # maxmim speed the boat can move
+
+        self.holding_space = False # if space is being held to make sure its lifted before acting again
+
+        self.switch_timer = 0      # timer to count down when entering/exiting the switching state
 
         # FOR TESTING CANNON AIMING
         self.speed = 0
@@ -38,9 +42,22 @@ class PlayerBoat(Boat):
     
     def update(self) -> None:
         """called once per frame"""
+        self.player_input()
         self.states()
         super().update() # boat update
     
+    def player_input(self) -> None:
+        """controls player input in any state"""
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_SPACE] and not self.holding_space: # pressed space when allowed
+            # can't spam space to constantly enter switching if already in the state
+            if self.state != "enter switching" and self.state != "switching":
+                self.state = "enter switching"                     # change state 
+                self.switch_timer = settings.PB_STATE_SWITCH_TIME # start switch timer
+
+        self.holding_space = keys[pygame.K_SPACE] # update whether the player's still holding space
+
     def states(self) -> None:
         """controls what the boat is doing in different states"""
         if self.state == "steering":
@@ -49,6 +66,8 @@ class PlayerBoat(Boat):
             self.sailing()
         elif self.state == "cannons":
             self.control_cannon()
+        elif self.state == "enter switching":
+            self.enter_switching()
     
     def steer(self) -> None:
         """steer boat with player input"""
@@ -82,3 +101,17 @@ class PlayerBoat(Boat):
 
         if pygame.mouse.get_pressed()[0]: # left mouse clicked
             self.active_cannon.shoot()
+    
+    def enter_switching(self) -> None:
+        """enter the switching state"""
+        for sail in self.sails:
+            # decrease sail alpha
+            sail.alpha -=((255-settings.PB_SAIL_HIDDEN_ALPHA)/settings.PB_STATE_SWITCH_TIME) * 1/tools.get_fps()
+        
+        self.switch_timer -= 1/tools.get_fps()
+        if self.switch_timer <= 0:
+            self.switch_timer = 0 # stop timer
+            for sail in self.sails: sail.alpha = settings.PB_SAIL_HIDDEN_ALPHA # make sure alphas are correct
+            self.state = "switching" # enter switching state
+        
+        self.make_main_boat_image() # remake image as alphas have changed

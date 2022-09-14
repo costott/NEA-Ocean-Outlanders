@@ -35,6 +35,8 @@ BOAT_BASE_SPEED = 50        # absolute speed of the boat in pixels/second
 # PLAYER BOAT
 PB_ANGLE_INP_ACCEL = BOAT_MAX_ANGLE_SPEED/3 # how much the angle velocity can change per second
 PB_INP_ACCEL = BOAT_BASE_SPEED/3            # how much the speed can change per second
+PB_SAIL_HIDDEN_ALPHA = 63                   # transparency of sails when in switching state
+PB_STATE_SWITCH_TIME = 0.5                  # amount of seconds it takes to switch state
 
 # CANNONBALL
 CANNONBALL_SPEED = 100 # absolute speed of cannonball in pixels/second
