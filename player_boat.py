@@ -120,7 +120,8 @@ class PlayerBoat(Boat):
     
     def switching(self) -> None:
         """logic whilst in the switching state"""
-        for cannon in self.cannons: cannon.feature_update()
+        for cannon in self.cannons: 
+            cannon.feature_update()
 
         self.make_main_boat_image() # remake images as sizes may change
     
