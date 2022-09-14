@@ -2,14 +2,14 @@ import pygame
 import math
 
 from cannonball import Cannonball
-from boat import BoatImage
+from boat_feature import BoatFeature
 import settings
 import tools
 
-class Cannon(BoatImage):
+class Cannon(BoatFeature):
     """cannon to shoot cannonballs"""
-    def __init__(self, boat, centre_offset: tuple[float, float], points_left: bool):
-        super().__init__("cannon.png", centre_offset) # initialises boat image
+    def __init__(self, boat, centre_offset: tuple[float, float], points_left: bool, effect):
+        super().__init__("cannon.png", centre_offset, effect, 255) # initialises boat image
         self.relative_angle = 0    # angle relative to boat angle (0 = start angle)
 
         self.boat = boat           # boat the cannon is on

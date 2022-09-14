@@ -37,10 +37,12 @@ PB_ANGLE_INP_ACCEL = BOAT_MAX_ANGLE_SPEED/3 # how much the angle velocity can ch
 PB_INP_ACCEL = BOAT_BASE_SPEED/3            # how much the speed can change per second
 PB_SAIL_HIDDEN_ALPHA = 63                   # transparency of sails when in switching state
 PB_STATE_SWITCH_TIME = 0.5                  # amount of seconds it takes to switch state
+PB_FEATURE_GROW_SCALE = 2                   # scales up image of feature when hovering
+PB_FEATURE_GROW_SPEED = 1                   # pixels feauture image grows/shrinks per frame
 
 # CANNONBALL
 CANNONBALL_SPEED = 100 # absolute speed of cannonball in pixels/second
 
 # HUD
-BAR_RADIUS = 7      # radius of rects on HUD
+BAR_RADIUS = 7        # radius of rects on HUD
 CROSSHAIR_SCALE = 0.7 # scale up the crosshair image

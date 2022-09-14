@@ -13,8 +13,8 @@ class PlayerBoat(Boat):
 
         self.state = "cannons" # current state of the boat (switching, steering, sailing, cannons)
 
-        self.cannons.append(Cannon(self, (15,20), True))
-        self.cannons.append(Cannon(self, (-15, 20), False))
+        self.cannons.append(Cannon(self, (15,20), True, self.active_cannon0))
+        self.cannons.append(Cannon(self, (-15, 20), False, self.active_cannon1))
         self.active_cannon = self.cannons[1] # cannon being controlled when in the cannons state
 
         self.get_sails()
@@ -68,6 +68,8 @@ class PlayerBoat(Boat):
             self.control_cannon()
         elif self.state == "enter switching":
             self.enter_switching()
+        elif self.state == "switching":
+            self.switching()
     
     def steer(self) -> None:
         """steer boat with player input"""
@@ -115,3 +117,19 @@ class PlayerBoat(Boat):
             self.state = "switching" # enter switching state
         
         self.make_main_boat_image() # remake image as alphas have changed
+    
+    def switching(self) -> None:
+        """logic whilst in the switching state"""
+        for cannon in self.cannons: cannon.feature_update()
+
+        self.make_main_boat_image() # remake images as sizes may change
+    
+    def active_cannon0(self) -> None:
+        """sets active cannon to cannon 0"""
+        self.state = "cannons"
+        self.active_cannon = self.cannons[0]
+    
+    def active_cannon1(self) -> None:
+        """sets active cannon to cannon 1"""
+        self.state = "cannons"
+        self.active_cannon = self.cannons[1]
