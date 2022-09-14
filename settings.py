@@ -40,4 +40,5 @@ PB_INP_ACCEL = BOAT_BASE_SPEED/3            # how much the speed can change per 
 CANNONBALL_SPEED = 100 # absolute speed of cannonball in pixels/second
 
 # HUD
-BAR_RADIUS = 7 # radius of rects on HUD
+BAR_RADIUS = 7      # radius of rects on HUD
+CROSSHAIR_SCALE = 0.7 # scale up the crosshair image

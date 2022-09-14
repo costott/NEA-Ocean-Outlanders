@@ -7,15 +7,25 @@ class HUD:
     """HUD on screen during run"""
     def __init__(self):
         self.screen = pygame.display.get_surface() # game screen for easy access
+
+        self.crosshair = pygame.image.load("assets/crosshair.png").convert_alpha() # crosshair for mouse 
+        self.crosshair = pygame.transform.rotozoom(self.crosshair, 0, settings.CROSSHAIR_SCALE) # scale to size
+        self.crosshair_rect = self.crosshair.get_rect() # conatiner for crosshair for easy positionings
     
     def draw(self) -> None:
         """draw the HUD"""
-        # draw main hud elements
+        # draw main hud elements   
+
+        # mouse invisible when it shouldn't be (happens when switching out of cannons state)
+        if not pygame.mouse.get_visible() and settings.current_run.player_boat.state != "cannons":
+            pygame.mouse.set_visible(True)
 
         if settings.current_run.player_boat.state == "steering":
             self.steering_hud()
         elif settings.current_run.player_boat.state == "sailing":
             self.sailing_hud()
+        elif settings.current_run.player_boat.state == "cannons":
+            self.cannons_hud()
     
     def steering_hud(self) -> None:
         """draws steering bar onto the screen"""
@@ -73,3 +83,11 @@ class HUD:
         
         pygame.draw.rect(self.screen, settings.DARK_BLUE, current_square, border_radius=settings.BAR_RADIUS)
         pygame.draw.rect(self.screen, settings.LIGHT_BLUE, inner_current_square, border_radius=settings.BAR_RADIUS)
+
+    def cannons_hud(self) -> None:
+        """draws the HUD elements for the cannon"""
+        if pygame.mouse.get_visible():      # mouse is visible
+            pygame.mouse.set_visible(False) # make mouse invisible as crosshair will replace it
+
+        self.crosshair_rect.center = pygame.mouse.get_pos()   # position crosshair at mouse
+        self.screen.blit(self.crosshair, self.crosshair_rect) # draw crosshair to screen
