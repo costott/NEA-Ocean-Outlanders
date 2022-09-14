@@ -68,6 +68,8 @@ class PlayerBoat(Boat):
             self.control_cannon()
         elif self.state == "enter switching":
             self.enter_switching()
+        elif self.state[0:14] == "exit switching":
+            self.exit_switching()
         elif self.state == "switching":
             self.switching()
     
@@ -108,13 +110,27 @@ class PlayerBoat(Boat):
         """enter the switching state"""
         for sail in self.sails:
             # decrease sail alpha
-            sail.alpha -=((255-settings.PB_SAIL_HIDDEN_ALPHA)/settings.PB_STATE_SWITCH_TIME) * 1/tools.get_fps()
+            sail.alpha -= ((255-settings.PB_SAIL_HIDDEN_ALPHA)/settings.PB_STATE_SWITCH_TIME) * 1/tools.get_fps()
         
         self.switch_timer -= 1/tools.get_fps()
         if self.switch_timer <= 0:
             self.switch_timer = 0 # stop timer
             for sail in self.sails: sail.alpha = settings.PB_SAIL_HIDDEN_ALPHA # make sure alphas are correct
             self.state = "switching" # enter switching state
+        
+        self.make_main_boat_image() # remake image as alphas have changed
+    
+    def exit_switching(self) -> None:
+        """exit the switching state"""
+        for sail in self.sails:
+            # increase sail alpha
+            sail.alpha += ((255-settings.PB_SAIL_HIDDEN_ALPHA)/settings.PB_STATE_SWITCH_TIME) * 1/tools.get_fps()
+        
+        self.switch_timer -= 1/tools.get_fps()
+        if self.switch_timer <= 0:
+            self.switch_timer = 0 # stop timer
+            for sail in self.sails: sail.alpha = 255 # make sure alphas are correct
+            self.state = self.state[15:len(self.state)] # go to next state
         
         self.make_main_boat_image() # remake image as alphas have changed
     
@@ -127,10 +143,12 @@ class PlayerBoat(Boat):
     
     def active_cannon0(self) -> None:
         """sets active cannon to cannon 0"""
-        self.state = "cannons"
-        self.active_cannon = self.cannons[0]
-    
+        self.state = "exit switching-cannons"             # exit switching state
+        self.switch_timer = settings.PB_STATE_SWITCH_TIME # start switch timer
+        self.active_cannon = self.cannons[0]              # set active cannon
+
     def active_cannon1(self) -> None:
         """sets active cannon to cannon 1"""
-        self.state = "cannons"
-        self.active_cannon = self.cannons[1]
+        self.state = "exit switching-cannons"             # exit switching state
+        self.switch_timer = settings.PB_STATE_SWITCH_TIME # start switch timer
+        self.active_cannon = self.cannons[1]              # set active cannon
