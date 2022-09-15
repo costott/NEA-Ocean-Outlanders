@@ -10,6 +10,8 @@ class Cannonball(pygame.sprite.Sprite):
         self.image = pygame.image.load("assets/cannonball.png").convert_alpha() # cannonball image
         self.rect = self.image.get_rect(center=start_pos)                       # container around cannonball
 
+        self.z = 2 # drawing order on screen
+
         self.pos = pygame.math.Vector2(start_pos)                               # centre position
         self.angle = angle                                                      # angle cannonball is moving in
     
