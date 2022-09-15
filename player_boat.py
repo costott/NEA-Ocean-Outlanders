@@ -152,8 +152,6 @@ class PlayerBoat(Boat):
             cannon.feature_update()
         for feature in self.boat_features:
             feature.feature_update()
-
-        self.make_main_boat_image() # remake images as sizes may change
     
     def active_cannon0(self) -> None:
         """sets active cannon to cannon 0"""
