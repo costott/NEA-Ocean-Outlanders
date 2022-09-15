@@ -53,8 +53,8 @@ class PlayerBoat(Boat):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_SPACE] and not self.holding_space: # pressed space when allowed
-            # can't spam space to constantly enter switching if already in the state
-            if self.state != "enter switching" and self.state != "switching" and self.state[0:14] != "exit switching":
+            # can't spam space to constantly enter switching if already in a switching state
+            if "switching" not in self.state:
                 self.state = "enter switching"                     # change state 
                 self.switch_timer = settings.PB_STATE_SWITCH_TIME # start switch timer
 
