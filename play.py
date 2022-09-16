@@ -35,6 +35,15 @@ class Play:
 
         player_spawns = []
 
+        rock_nums = { # csv number to image number
+            "48": 1,
+            "49": 2,
+            "50": 3,
+            "64": 4,
+            "65": 5,
+            "66": 6,
+        }
+
         layers = {
             "colliders": self.map_csv_list("colliders"),
             "rocks": self.map_csv_list("rocks"),
@@ -55,6 +64,9 @@ class Play:
                         MapPiece([self.collide_sprites], topleft)
                     elif layer_name == "player_spawn":
                         player_spawns.append(topleft)
+                    elif layer_name == "rocks":
+                        rock_image = pygame.image.load(f"map/rocks/rock{rock_nums[csv_list[row][col]]}.png").convert_alpha()
+                        MapPiece([self.screen_sprites, self.collide_sprites], topleft, rock_image)
 
         self.player_boat = PlayerBoat([self.screen_sprites], random.choice(player_spawns))
     
