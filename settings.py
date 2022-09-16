@@ -46,3 +46,6 @@ CANNONBALL_SPEED = 100 # absolute speed of cannonball in pixels/second
 # HUD
 BAR_RADIUS = 7        # radius of rects on HUD
 CROSSHAIR_SCALE = 0.7 # scale up the crosshair image
+
+# MAP
+MAIN_MAP_IMAGE = "map/map.png"  # location of the main map image
