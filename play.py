@@ -62,11 +62,11 @@ class Play:
 
                     if layer_name == "colliders":
                         MapPiece([self.collide_sprites], topleft)
-                    elif layer_name == "player_spawn":
-                        player_spawns.append(topleft)
                     elif layer_name == "rocks":
                         rock_image = pygame.image.load(f"map/rocks/rock{rock_nums[csv_list[row][col]]}.png").convert_alpha()
                         MapPiece([self.screen_sprites, self.collide_sprites], topleft, rock_image)
+                    elif layer_name == "player_spawn":
+                        player_spawns.append(topleft)
 
         self.player_boat = PlayerBoat([self.screen_sprites], random.choice(player_spawns))
     
