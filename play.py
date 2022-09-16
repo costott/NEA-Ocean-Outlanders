@@ -3,6 +3,7 @@ import random
 import csv
 
 from player_boat import PlayerBoat
+from enemy_boat import EnemyBoat
 from map_piece import MapPiece
 from hud import HUD
 import settings
@@ -69,6 +70,8 @@ class Play:
                         player_spawns.append(topleft)
 
         self.player_boat = PlayerBoat([self.screen_sprites], random.choice(player_spawns))
+
+        EnemyBoat([self.screen_sprites], self.player_boat.pos + pygame.math.Vector2(800, 800))
     
     def update(self) -> None:
         """called once per frame"""

@@ -40,6 +40,12 @@ PB_STATE_SWITCH_TIME = 0.5                  # amount of seconds it takes to swit
 PB_FEATURE_MAX_SIZE_GROW = 5                # maximum amount of pixels the image can grow
 PB_FEATURE_GROW_SPEED = 1                   # pixels feauture image grows/shrinks per frame
 
+# ENEMY BOAT
+ENEMY_SHOOT_DISTANCE = 400               # base distance away from player (pixels) enemy can shoot from
+ENEMY_MIN_SHOOT_TIME = 5                 # minimum time enemies must wait between shots in seconds
+ENEMY_MAX_SHOOT_TIME = 20                # maximum time enemies must wait between shots in seconds
+ENEMY_ACCELERATION = BOAT_BASE_SPEED/1.5 # change in speed per second
+
 # CANNONBALL
 CANNONBALL_SPEED = 100 # absolute speed of cannonball in pixels/second
 
