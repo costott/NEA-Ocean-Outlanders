@@ -1,6 +1,9 @@
 import pygame
+import random
+import csv
 
 from player_boat import PlayerBoat
+from map_piece import MapPiece
 from hud import HUD
 import settings
 import tools
@@ -27,10 +30,33 @@ class Play:
     
     def create_map(self) -> None:
         """creates map at start of game"""
-        self.player_boat = PlayerBoat([self.screen_sprites], (settings.WIDTH/2,settings.HEIGHT/2))
-
         self.main_map_image = pygame.image.load(settings.MAIN_MAP_IMAGE).convert()
         self.main_map_rect = self.main_map_image.get_rect()
+
+        player_spawns = []
+
+        layers = {
+            "colliders": self.map_csv_list("colliders"),
+            "rocks": self.map_csv_list("rocks"),
+            "ports": self.map_csv_list("ports"),
+            "player_spawn": self.map_csv_list("player spawn")
+        }
+        map_height = len(layers["colliders"])   # number of map pieces vertically
+        map_width = len(layers["colliders"][0]) # number of map pieces horizontally
+
+        for row in range(map_height):
+            for col in range(map_width):
+                topleft = (col*settings.PIECE_SIZE, row*settings.PIECE_SIZE) # position of map piece
+
+                for layer_name, csv_list in layers.items():
+                    if csv_list[row][col] == "-1": continue # move on if empty
+
+                    if layer_name == "colliders":
+                        MapPiece([self.collide_sprites], topleft)
+                    elif layer_name == "player_spawn":
+                        player_spawns.append(topleft)
+
+        self.player_boat = PlayerBoat([self.screen_sprites], random.choice(player_spawns))
     
     def update(self) -> None:
         """called once per frame"""
@@ -51,6 +77,16 @@ class Play:
     def timer(self) -> None:
         """timer counts up"""
         self.time += 1/tools.get_fps()
+    
+    def map_csv_list(self, name: str) -> list:
+        """returns a list from a given csv file for the map\n
+        name is name in map/csv_files/map_[name].csv"""
+        csv_list = []
+        with open(f"map/csv_files/map_{name}.csv") as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=",")
+            for row in csv_reader:
+                csv_list.append(row)
+        return csv_list    
 
 class Camera:
     """camera to position sprites on screen"""

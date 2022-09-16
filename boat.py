@@ -70,14 +70,14 @@ class Boat(pygame.sprite.Sprite): # boat is built upon pygame's sprite class
         self.rect.center = self.pos # move boat
         if self.collision():
             self.pos.x = old_x # undo movement
+            self.rect.center = self.pos
         
-        old_y = self.pos.x # same thing for boat's y value
+        old_y = self.pos.y # same thing for boat's y value I AM STUPID
         self.pos.y -= self.speed * math.cos(self.angle * (math.pi/180)) * 1/tools.get_fps()
         self.rect.center = self.pos
         if self.collision():
             self.pos.y = old_y
-        
-        self.rect.center = self.pos # final rect
+            self.rect.center = self.pos
     
     def collision(self) -> bool:
         """checks for boat collision with collide sprites"""
