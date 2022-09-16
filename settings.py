@@ -49,4 +49,4 @@ CROSSHAIR_SCALE = 0.7 # scale up the crosshair image
 
 # MAP
 MAIN_MAP_IMAGE = "map/map.png"  # location of the main map image
-TILESIZE = 64                   # width+height in pixels of tile
+PIECE_SIZE = 64                 # width+height in pixels of map piece
