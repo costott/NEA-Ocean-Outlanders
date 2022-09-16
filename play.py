@@ -12,10 +12,12 @@ class Play:
         self.HUD = HUD()        # holds the HUD object
         self.pause_menu = None  # holds the run's pause menu
 
-        self.screen_sprites = CameraSpriteGroup()  # sprites visible on screen
+        self.screen_sprites = ScreenSpriteGroup()    # sprites visible on screen
         self.collide_sprites = pygame.sprite.Group() # sprites that collide with boats
         self.cannonballs = pygame.sprite.Group()     # all active cannonballs
         self.create_map()
+
+        self.camera = Camera()
 
         self.paused = False     # pauses/resumes the run
 
@@ -26,11 +28,20 @@ class Play:
     def create_map(self) -> None:
         """creates map at start of game"""
         self.player_boat = PlayerBoat([self.screen_sprites], (settings.WIDTH/2,settings.HEIGHT/2))
+
+        self.main_map_image = pygame.image.load(settings.MAIN_MAP_IMAGE).convert()
+        self.main_map_rect = self.main_map_image.get_rect()
     
     def update(self) -> None:
         """called once per frame"""
         if not self.paused:
-            self.screen_sprites.camera_draw()
+            self.camera.update()
+
+            # draw main map image in correct screen position
+            self.screen.blit(self.main_map_image, self.main_map_rect.topleft+self.camera.camera_move)
+
+            # draw and update screen sprites
+            self.screen_sprites.draw(self.screen, self.camera.camera_move)
             self.screen_sprites.update()
 
             self.timer()
@@ -41,26 +52,23 @@ class Play:
         """timer counts up"""
         self.time += 1/tools.get_fps()
 
-class CameraSpriteGroup(pygame.sprite.Group):
-    """sprite group affected by the camera"""
-    def __init__(self) -> None:
+class Camera:
+    """camera to position sprites on screen"""
+    def __init__(self):
+        self.screen_centre = pygame.math.Vector2(settings.WIDTH/2, settings.HEIGHT/2) # vector centre of screen
+
+        self.camera_move = pygame.math.Vector2() # direction to move all sprites on map
+    
+    def update(self) -> None:
+        """updates the distance to move sprites on screen"""
+        self.camera_move =  self.screen_centre - pygame.math.Vector2(settings.current_run.player_boat.rect.center)
+
+class ScreenSpriteGroup(pygame.sprite.Group):
+    def __init__(self):
         super().__init__() # initialise sprite group
-        self.screen = pygame.display.get_surface() # gets screen for easy access
-        self.player_offset = pygame.math.Vector2() # offset between player's real position and screen centre
-        self.screen_centre = pygame.math.Vector2(settings.WIDTH/2, settings.HEIGHT/2) # vector of screen centre
-
-        self.main_map_img = pygame.image.load(settings.MAIN_MAP_IMAGE).convert() # map map image
-        self.main_map_rect = self.main_map_img.get_rect()                        # container for map image
     
-    def camera_draw(self) -> None:
-        """camera draw"""
-        # calculate the player's distance from centre of screen
-        self.player_offset = self.screen_centre - pygame.math.Vector2(settings.current_run.player_boat.rect.center)
-
-        map_screen_position = self.main_map_rect.topleft + self.player_offset # position map
-        self.screen.blit(self.main_map_img, map_screen_position)              # draw map on screen
-    
-        # loop through the sprites in the group, sorted by their z values (higher z = drawn later)
-        for sprite in sorted(self.sprites(), key = lambda sprite: sprite.z): 
-            screen_position = sprite.rect.topleft + self.player_offset # offset position to put to screen
-            self.screen.blit(sprite.image, screen_position)            # draw sprite to screen
+    def draw(self, screen: pygame.Surface, camera_move: pygame.math.Vector2) -> None:
+        # loop through sprite sorted by their z values (higher z = drawn later+)
+        for sprite in sorted(self, key = lambda sprite: sprite.z):     
+            # draw sprite to correct camera position on screen
+            screen.blit(sprite.image, sprite.rect.topleft+camera_move) 
