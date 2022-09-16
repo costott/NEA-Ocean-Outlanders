@@ -68,7 +68,7 @@ class ScreenSpriteGroup(pygame.sprite.Group):
         super().__init__() # initialise sprite group
     
     def draw(self, screen: pygame.Surface, camera_move: pygame.math.Vector2) -> None:
-        # loop through sprite sorted by their z values (higher z = drawn later+)
+        # loop through sprite sorted by their z values (higher z = drawn later)
         for sprite in sorted(self, key = lambda sprite: sprite.z):     
             # draw sprite to correct camera position on screen
             screen.blit(sprite.image, sprite.rect.topleft+camera_move) 
