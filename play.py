@@ -64,10 +64,12 @@ class Camera:
         self.camera_move =  self.screen_centre - pygame.math.Vector2(settings.current_run.player_boat.rect.center)
 
 class ScreenSpriteGroup(pygame.sprite.Group):
+    """sprite group for screen sprites"""
     def __init__(self):
         super().__init__() # initialise sprite group
     
     def draw(self, screen: pygame.Surface, camera_move: pygame.math.Vector2) -> None:
+        """draw sprites to screen with correct screen position"""
         # loop through sprite sorted by their z values (higher z = drawn later)
         for sprite in sorted(self, key = lambda sprite: sprite.z):     
             # draw sprite to correct camera position on screen
