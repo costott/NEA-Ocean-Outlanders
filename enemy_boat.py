@@ -15,6 +15,7 @@ class EnemyBoat(Boat):
         self.z = 0
 
         # STATS
+        self.start_hp = start_hp
         self.hp = start_hp
         self.damage = start_damage
         self.speed = start_speed

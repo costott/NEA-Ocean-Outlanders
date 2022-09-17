@@ -34,6 +34,7 @@ class Play:
 
         # RUN STATS
         self.kills = 0
+        self.gold = 0
     
     def create_map(self) -> None:
         """creates map at start of game"""

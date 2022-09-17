@@ -15,6 +15,7 @@ LIGHT_BLUE = "#6B93B8"
 LIGHT_BLUE_HOVER = "#7DA5CA"
 DARK_BLUE = "#46627A"
 WHITE = "#d8e3ed"
+RED = "#ff1100"
 
 # BUTTONS
 BUTTON_GROW = 1.1               # multiplies the button size for maximum growth size
@@ -69,8 +70,13 @@ ENEMY_SPD_ADD =  0.1         # how much enemy speed increases per wave
 CANNONBALL_SPEED = 100 # absolute speed of cannonball in pixels/second
 
 # HUD
-BAR_RADIUS = 7        # radius of rects on HUD
-CROSSHAIR_SCALE = 0.7 # scale up the crosshair image
+BAR_RADIUS = 7                  # radius of rects on HUD
+CROSSHAIR_SCALE = 0.7           # scale up the crosshair image
+ENEMY_HEALTH_BAR_WIDTH = 100    # pixel width of enemy health bar
+ENEMY_HEATH_BAR_HEIGHT = 10     # pixel height of enemy health bar
+ENEMY_HEALTH_BAR_OFFSET = 5     # pixels above enemy
+HUD_INFO_FONT_SIZE = 40         # size of font for text on HUD
+HUD_PADDING = 15                # pixel padding between text on HUD
 
 # MAP
 MAIN_MAP_IMAGE = "map/map.png"  # location of the main map image
