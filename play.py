@@ -2,6 +2,7 @@ import pygame
 import random
 import csv
 
+from enemy_spawner import EnemySpawner
 from player_boat import PlayerBoat
 from enemy_boat import EnemyBoat
 from map_piece import MapPiece
@@ -19,9 +20,12 @@ class Play:
         self.screen_sprites = ScreenSpriteGroup()    # sprites visible on screen
         self.collide_sprites = pygame.sprite.Group() # sprites that collide with boats
         self.cannonballs = pygame.sprite.Group()     # all active cannonballs
+        self.enemy_spawnable = pygame.sprite.Group() # places enemies can spawn
         self.create_map()
 
         self.camera = Camera()
+
+        self.enemy_spawner = EnemySpawner()
 
         self.paused = False     # pauses/resumes the run
 
@@ -49,7 +53,8 @@ class Play:
             "colliders": self.map_csv_list("colliders"),
             "rocks": self.map_csv_list("rocks"),
             "ports": self.map_csv_list("ports"),
-            "player_spawn": self.map_csv_list("player spawn")
+            "player_spawn": self.map_csv_list("player spawn"),
+            "spawnable": self.map_csv_list("spawnable")
         }
         map_height = len(layers["colliders"])   # number of map pieces vertically
         map_width = len(layers["colliders"][0]) # number of map pieces horizontally
@@ -68,10 +73,10 @@ class Play:
                         MapPiece([self.screen_sprites, self.collide_sprites], topleft, rock_image)
                     elif layer_name == "player_spawn":
                         player_spawns.append(topleft)
+                    elif layer_name == "spawnable":
+                        MapPiece([self.enemy_spawnable], topleft)
 
         self.player_boat = PlayerBoat([self.screen_sprites], random.choice(player_spawns))
-
-        EnemyBoat([self.screen_sprites], self.player_boat.pos + pygame.math.Vector2(800, 800))
     
     def update(self) -> None:
         """called once per frame"""
@@ -84,6 +89,8 @@ class Play:
             # draw and update screen sprites
             self.screen_sprites.draw(self.screen, self.camera.camera_move)
             self.screen_sprites.update()
+
+            self.enemy_spawner.update()
 
             self.timer()
 

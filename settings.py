@@ -45,6 +45,22 @@ ENEMY_SHOOT_DISTANCE = 400               # base distance away from player (pixel
 ENEMY_MIN_SHOOT_TIME = 5                 # minimum time enemies must wait between shots in seconds
 ENEMY_MAX_SHOOT_TIME = 20                # maximum time enemies must wait between shots in seconds
 ENEMY_ACCELERATION = BOAT_BASE_SPEED/1.5 # change in speed per second
+ENEMY_BASE_HP = 100                      # starting HP of enemies
+ENEMY_BASE_DMG = 10                      # starting damage of enemies
+ENEMY_BASE_SPD = BOAT_BASE_SPEED         # starting speed of enemies
+
+# ENEMY SPAWNING
+START_WAVE_NUM = 10          # amount of enemies in wave 1
+WAVE_BREAK_TIME = 10         # amount of seconds between waves
+MIN_SPAWN_TIME = 2           # minimum amount of seconds between enemy spawns
+MAX_SPAWN_TIME = 4           # maximum amount of seconds between enemy spawns
+MAX_SPAWN_DIVIDE = 3         # divides total enemies to spawn to get maximum enemies to spawn per spawn
+MIN_SPAWN_DISTANCE = 700     # minimum distance (pixels) enemies can spawn
+MAX_SPAWN_DISTANCE = 1000    # maximum distance (pixels) enemies can spawn
+WAVE_ENEMY_INCREASE = 1      # amount of extra enemies per wave
+ENEMY_HP_ADD = 20            # how much enemy hp increases per wave
+ENEMY_DMG_ADD = 1            # how much enemy damage increases per wave
+ENEMY_SPD_ADD =  0.1         # how much enemy speed increases per wave
 
 # CANNONBALL
 CANNONBALL_SPEED = 100 # absolute speed of cannonball in pixels/second
