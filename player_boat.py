@@ -19,8 +19,8 @@ class PlayerBoat(Boat):
 
         self.state = "sailing" # current state of the boat (switching, steering, sailing, cannons)
 
-        self.cannons.append(Cannon(self, (15,20), True, self.active_cannon0, self.damage))    # left cannon
-        self.cannons.append(Cannon(self, (-15, 20), False, self.active_cannon1, self.damage)) # right cannon
+        self.cannons.append(Cannon(self, (15,20), True, self.active_cannon0, self.damage, "player"))    # left cannon
+        self.cannons.append(Cannon(self, (-15, 20), False, self.active_cannon1, self.damage, "player")) # right cannon
 
         self.get_sails()
 

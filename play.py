@@ -4,7 +4,6 @@ import csv
 
 from enemy_spawner import EnemySpawner
 from player_boat import PlayerBoat
-from enemy_boat import EnemyBoat
 from map_piece import MapPiece
 from hud import HUD
 import settings
@@ -19,7 +18,6 @@ class Play:
 
         self.screen_sprites = ScreenSpriteGroup()    # sprites visible on screen
         self.collide_sprites = pygame.sprite.Group() # sprites that collide with boats
-        self.cannonballs = pygame.sprite.Group()     # all active cannonballs
         self.enemy_spawnable = pygame.sprite.Group() # places enemies can spawn
         self.boat_sprites = pygame.sprite.Group()    # all boats
         self.create_map()

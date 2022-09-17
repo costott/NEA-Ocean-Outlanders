@@ -8,7 +8,7 @@ import tools
 
 class Cannon(BoatFeature):
     """cannon to shoot cannonballs"""
-    def __init__(self, boat, centre_offset: tuple[float, float], points_left: bool, effect, damage: float):
+    def __init__(self, boat, centre_offset: tuple[float, float], points_left: bool, effect, damage: float, shooter: str):
         super().__init__("cannon.png", centre_offset, effect, 255) # initialises boat image
         self.relative_angle = 0    # angle relative to boat angle (0 = start angle)
 
@@ -25,6 +25,8 @@ class Cannon(BoatFeature):
         self.holding_left_mouse = False # used to make sure mouse gets lifted before firing again
 
         self.damage = damage # amount of damage a shot cannonball does
+
+        self.shooter = shooter # who is using the cannon (player/enemy)
     
     def update(self) -> None:
         """called once per frame"""
@@ -82,7 +84,7 @@ class Cannon(BoatFeature):
         """shoots cannon"""
         if not self.holding_left_mouse and self.fire_timer == 0:
             cannon_pos = self.pos
-            Cannonball(cannon_pos, self.boat.angle+self.relative_angle, self.damage) # create cannonball
+            Cannonball(cannon_pos, self.boat.angle+self.relative_angle, self.damage, self.shooter) # create cannonball
 
             self.fire_timer = self.fire_rate # start fire timer
         

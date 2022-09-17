@@ -25,7 +25,7 @@ class EnemyBoat(Boat):
         self.shoot_variation = random.randint(-100, 100)
         self.shoot_distance = settings.ENEMY_SHOOT_DISTANCE + self.shoot_variation
 
-        self.cannons.append(Cannon(self, (0,45), True, None, self.damage))
+        self.cannons.append(Cannon(self, (0,45), True, None, self.damage, "enemy"))
         self.get_sails()
         self.images = [self.hull] + self.cannons + self.sails # all boat images to be used to compile main image
         self.make_main_boat_image()

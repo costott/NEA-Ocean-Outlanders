@@ -5,8 +5,8 @@ import settings
 import tools
 
 class Cannonball(pygame.sprite.Sprite):
-    def __init__(self, start_pos: tuple[float, float], angle: float, damage: float):
-        super().__init__([settings.current_run.screen_sprites, settings.current_run.cannonballs])#initialise groups
+    def __init__(self, start_pos: tuple[float, float], angle: float, damage: float, shooter: str):
+        super().__init__([settings.current_run.screen_sprites])#initialise groups
         self.image = pygame.image.load("assets/cannonball.png").convert_alpha() # cannonball image
         self.rect = self.image.get_rect(center=start_pos)                       # container around cannonball
 
@@ -16,6 +16,17 @@ class Cannonball(pygame.sprite.Sprite):
         self.angle = angle                                                      # angle cannonball is moving in
 
         self.damage = damage                                                    # amount of damage it deals
+        
+        self.get_allowed_boats(shooter)
+    
+    def get_allowed_boats(self, shooter: str) -> None:
+        """makes a list of boats this cannonball is allowed to shoot"""
+        self.allowed_boats = []
+        for boat in settings.current_run.boat_sprites:
+            if boat == settings.current_run.player_boat and shooter == "player":
+                self.allowed_boats.append(boat)
+            elif shooter == "enemy":
+                self.allowed_boats.append(boat)
     
     def update(self) -> None:
         """called once per frame"""
