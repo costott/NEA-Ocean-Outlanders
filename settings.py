@@ -39,6 +39,9 @@ PB_SAIL_HIDDEN_ALPHA = 63                   # transparency of sails when in swit
 PB_STATE_SWITCH_TIME = 0.5                  # amount of seconds it takes to switch state
 PB_FEATURE_MAX_SIZE_GROW = 5                # maximum amount of pixels the image can grow
 PB_FEATURE_GROW_SPEED = 1                   # pixels feauture image grows/shrinks per frame
+PB_BASE_SPEED = BOAT_BASE_SPEED             # starting speed of player boat
+PB_BASE_DAMAGE = 20                         # starting damage of player boat
+PB_BASE_HP = 200                            # starting hp of player boat
 
 # ENEMY BOAT
 ENEMY_SHOOT_DISTANCE = 400               # base distance away from player (pixels) enemy can shoot from

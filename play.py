@@ -21,6 +21,7 @@ class Play:
         self.collide_sprites = pygame.sprite.Group() # sprites that collide with boats
         self.cannonballs = pygame.sprite.Group()     # all active cannonballs
         self.enemy_spawnable = pygame.sprite.Group() # places enemies can spawn
+        self.boat_sprites = pygame.sprite.Group()    # all boats
         self.create_map()
 
         self.camera = Camera()
@@ -32,6 +33,9 @@ class Play:
         self.time = 0           # time spent in the run (in seconds)
 
         settings.current_run = self
+
+        # RUN STATS
+        self.kills = 0
     
     def create_map(self) -> None:
         """creates map at start of game"""
@@ -76,7 +80,7 @@ class Play:
                     elif layer_name == "spawnable":
                         MapPiece([self.enemy_spawnable], topleft)
 
-        self.player_boat = PlayerBoat([self.screen_sprites], random.choice(player_spawns))
+        self.player_boat = PlayerBoat([self.screen_sprites, self.boat_sprites], random.choice(player_spawns))
     
     def update(self) -> None:
         """called once per frame"""

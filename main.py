@@ -1,6 +1,7 @@
 import pygame
 import sys 
 
+from player_stats import PlayerStats
 from main_menu import MainMenu
 import settings
 
@@ -15,7 +16,9 @@ class Game:
         self.running = True         # keeps the main game loop running
 
         self.player_username = None # holds the player's username once signed up/logged in
-        self.player_stats = None    # holds the player stats object once signed up/logged in
+
+        # holds the player stats object once signed up/logged in
+        self.player_stats = PlayerStats(settings.PB_BASE_HP, settings.PB_BASE_DAMAGE, settings.PB_BASE_SPEED)    
 
         self.state = "main menu"    # current state of the game (start or main menu)
         self.start_screen = None    # holds the start menu

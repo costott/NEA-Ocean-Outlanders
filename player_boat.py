@@ -12,10 +12,15 @@ class PlayerBoat(Boat):
         super().__init__(groups, start_pos)
         self.z = 1
 
+        # STATS
+        self.hp = settings.GAME.player_stats.hp
+        self.damage = settings.GAME.player_stats.damage
+        self.speed = settings.GAME.player_stats.speed
+
         self.state = "sailing" # current state of the boat (switching, steering, sailing, cannons)
 
-        self.cannons.append(Cannon(self, (15,20), True, self.active_cannon0))    # left cannon
-        self.cannons.append(Cannon(self, (-15, 20), False, self.active_cannon1)) # right cannon
+        self.cannons.append(Cannon(self, (15,20), True, self.active_cannon0, self.damage))    # left cannon
+        self.cannons.append(Cannon(self, (-15, 20), False, self.active_cannon1, self.damage)) # right cannon
 
         self.get_sails()
 
@@ -174,3 +179,14 @@ class PlayerBoat(Boat):
         """switches to steering state"""
         self.state = "exit switching-steering"            # exit switching state
         self.switch_timer = settings.PB_STATE_SWITCH_TIME # start switch timer
+
+    def hit(self, damage: float) -> None:
+        """player boat takes damage"""
+        self.hp -= damage
+
+        if self.hp <= 0:
+            self.die()
+    
+    def die(self) -> None:
+        """what happens when the player dies"""
+        pass # to be implemented later

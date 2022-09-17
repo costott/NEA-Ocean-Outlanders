@@ -9,9 +9,15 @@ import tools
 
 class EnemyBoat(Boat):
     """boat with enemy behaviour"""
-    def __init__(self, groups: list[pygame.sprite.Group], start_pos: tuple):
+    def __init__(self, groups: list[pygame.sprite.Group], start_pos: tuple, 
+                 start_hp: float, start_damage: float, start_speed: float):
         super().__init__(groups, start_pos)
         self.z = 0
+
+        # STATS
+        self.hp = start_hp
+        self.damage = start_damage
+        self.speed = start_speed
         
         self.state = "following"                         # current state the enemy is in (following/shooting)
 
@@ -19,7 +25,7 @@ class EnemyBoat(Boat):
         self.shoot_variation = random.randint(-100, 100)
         self.shoot_distance = settings.ENEMY_SHOOT_DISTANCE + self.shoot_variation
 
-        self.cannons.append(Cannon(self, (0,45), True, None))
+        self.cannons.append(Cannon(self, (0,45), True, None, self.damage))
         self.get_sails()
         self.images = [self.hull] + self.cannons + self.sails # all boat images to be used to compile main image
         self.make_main_boat_image()
@@ -110,3 +116,16 @@ class EnemyBoat(Boat):
         if relative_angle < 0: relative_angle += 360
 
         self.cannons[0].relative_angle = relative_angle
+    
+    def hit(self, damage: float) -> None:
+        """enemy boat takes damage"""
+        self.hp -= damage
+
+        if self.hp <= 0:
+            self.die()
+    
+    def die(self) -> None:
+        """what happens when an enemy dies"""
+        settings.current_run.kills += 1                           # increase total kills
+        settings.current_run.enemy_spawner.wave_dead_enemies += 1 # increasae wave kills
+        self.kill() # remove enemy from all groups

@@ -66,7 +66,8 @@ class EnemySpawner:
         # spawn random number of enemies in random spawnable locations
         enemy_count = random.randint(1, max_enemies)
         for _ in range(enemy_count):
-            EnemyBoat([settings.current_run.screen_sprites], random.choice(spawn_choices))
+            EnemyBoat([settings.current_run.screen_sprites, settings.current_run.boat_sprites], random.choice(spawn_choices), 
+                      self.current_enemy_hp, self.current_enemy_dmg, self.current_enemy_spd)
         
         self.wave_spawned_enemies += enemy_count
     
