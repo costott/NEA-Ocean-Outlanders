@@ -17,16 +17,7 @@ class Cannonball(pygame.sprite.Sprite):
 
         self.damage = damage                                                    # amount of damage it deals
         
-        self.get_allowed_boats(shooter)
-    
-    def get_allowed_boats(self, shooter: str) -> None:
-        """makes a list of boats this cannonball is allowed to shoot"""
-        self.allowed_boats = []
-        for boat in settings.current_run.boat_sprites:
-            if boat == settings.current_run.player_boat and shooter == "enemy":
-                self.allowed_boats.append(boat)
-            elif boat != settings.current_run.player_boat and shooter == "player":
-                self.allowed_boats.append(boat)
+        self.shooter = shooter                                                  # who shot the cannonball
     
     def update(self) -> None:
         """called once per frame"""
@@ -49,6 +40,11 @@ class Cannonball(pygame.sprite.Sprite):
                 self.kill()   # remove cannonball from groups
     
         for boat in self.allowed_boats:
+            if boat == settings.current_run.player_boat and self.shooter == "player":
+                continue # don't let the player shoot itself
+            elif boat != settings.current_run.player_boat and self.shooter == "enemy":
+                continue # don't let enemies shoot each other
+
             if self.rect.colliderect(boat.rect): # check for collision
                 boat.hit(self.damage) # damage boat
                 self.effect()
