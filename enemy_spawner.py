@@ -81,4 +81,5 @@ class EnemySpawner:
 
         self.total_wave_enemies += settings.WAVE_ENEMY_INCREASE
         self.wave_spawned_enemies = 0
+        self.wave_dead_enemies = 0
         self.finished_wave = False

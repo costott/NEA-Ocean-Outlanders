@@ -39,7 +39,7 @@ class Cannonball(pygame.sprite.Sprite):
                 self.effect() 
                 self.kill()   # remove cannonball from groups
     
-        for boat in self.allowed_boats:
+        for boat in settings.current_run.boat_sprites:
             if boat == settings.current_run.player_boat and self.shooter == "player":
                 continue # don't let the player shoot itself
             elif boat != settings.current_run.player_boat and self.shooter == "enemy":
