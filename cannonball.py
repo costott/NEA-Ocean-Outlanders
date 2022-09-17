@@ -23,9 +23,9 @@ class Cannonball(pygame.sprite.Sprite):
         """makes a list of boats this cannonball is allowed to shoot"""
         self.allowed_boats = []
         for boat in settings.current_run.boat_sprites:
-            if boat == settings.current_run.player_boat and shooter == "player":
+            if boat == settings.current_run.player_boat and shooter == "enemy":
                 self.allowed_boats.append(boat)
-            elif shooter == "enemy":
+            elif boat != settings.current_run.player_boat and shooter == "player":
                 self.allowed_boats.append(boat)
     
     def update(self) -> None:
@@ -48,4 +48,8 @@ class Cannonball(pygame.sprite.Sprite):
                 self.effect() 
                 self.kill()   # remove cannonball from groups
     
-        # boat collision to be implemented later
+        for boat in self.allowed_boats:
+            if self.rect.colliderect(boat.rect): # check for collision
+                boat.hit(self.damage) # damage boat
+                self.effect()
+                self.kill()
