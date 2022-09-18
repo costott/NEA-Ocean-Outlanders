@@ -59,6 +59,11 @@ ENEMY_ACCELERATION = BOAT_BASE_SPEED/1.5 # change in speed per second
 ENEMY_BASE_HP = 100                      # starting HP of enemies
 ENEMY_BASE_DMG = 10                      # starting damage of enemies
 ENEMY_BASE_SPD = BOAT_BASE_SPEED         # starting speed of enemies
+ENEMY_GOLD_CHANCE = 40                   # % chance for enemy to drop gold
+MIN_ENEMY_GOLD_AMOUNT = 1                # minimum gold drop when enemy drops gold
+MAX_ENEMY_GOLD_AMOUNT = 3                # maximum gold drop when enemy drops gold
+ENEMY_HP_CHANCE = 10                     # % chance for enemy kill to give player hp
+ENEMY_HP_REGEN = 10                      # how much hp enemy kills give the player
 
 # ENEMY SPAWNING
 START_WAVE_NUM = 10          # amount of enemies in wave 1

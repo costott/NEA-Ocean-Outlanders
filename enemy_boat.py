@@ -129,4 +129,21 @@ class EnemyBoat(Boat):
         """what happens when an enemy dies"""
         settings.current_run.kills += 1                           # increase total kills
         settings.current_run.enemy_spawner.wave_dead_enemies += 1 # increasae wave kills
+
+        self.drop_gold()
+        self.give_hp()
+
         self.kill() # remove enemy from all groups
+    
+    def drop_gold(self) -> None:
+        """enemy tries to drop gold"""
+        if random.randint(1,100) <= settings.ENEMY_GOLD_CHANCE: 
+            # give gold
+            settings.current_run.gold += random.randint(settings.MIN_ENEMY_GOLD_AMOUNT, settings.MAX_ENEMY_GOLD_AMOUNT)
+    
+    def give_hp(self) -> None:
+        """attempts to give player hp"""
+        if random.randint(1,100) <= settings.ENEMY_HP_CHANCE:
+            settings.current_run.player_boat.hp += settings.ENEMY_HP_REGEN # give hp
+            # limit maximum hp
+            settings.current_run.player_boat.hp = min(settings.current_run.player_boat.hp, settings.GAME.player_stats.hp)
