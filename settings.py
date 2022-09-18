@@ -28,6 +28,13 @@ BAR_HEIGHT = 80         # height of top bar
 HEADING_BORDER_SIZE = 5 # border width of heading and top bar borders
 HEADING_TEXT_SIZE = 100 # size of the heading text
 
+# END MENU
+END_MENU_HIGHSCORE_GAP = 200    # gap between stat and highscore
+END_MENU_BAR_GAP = 20           # gap between bars
+END_MENU_BAR_BORDER_WIDTH = 5   # border width of bars
+END_MENU_PADDING = 10           # padding between bar edge and stat
+END_MENU_BAR_RADIUS = 15        # border radius of bars
+
 # BOAT
 BOAT_SCALE = 1              # multiplier for the boat image size
 BOAT_MAX_ANGLE_SPEED = 20   # maximum speed the boat can turn in pixels/second

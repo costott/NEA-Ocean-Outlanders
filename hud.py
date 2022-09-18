@@ -108,11 +108,7 @@ class HUD:
     def wave(self) -> None:
         """draw the wave information (time+wave) to the screen"""
         # get time into h:m:s
-        time = int(settings.current_run.time)
-        time_hours = time // 3600
-        time_minutes = (time - time_hours*3600) // 60
-        time_seconds = round(time - (time_hours*3600+time_minutes*60))
-        time_string = f"{time_hours:2}:{time_minutes:2}:{time_seconds:2}".replace(" ", "0")
+        time_string = tools.hms(settings.current_run.time)
 
         # make text and get rects
         time_text = self.info_font.render(time_string, True, settings.WHITE)

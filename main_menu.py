@@ -1,6 +1,7 @@
 import pygame
 
 from menu import HeadingMenu, Button
+from end_menu import EndMenu
 from play import Play
 import settings
 
@@ -19,6 +20,15 @@ class MainMenu(HeadingMenu):
             super().update() # update menu
         elif self.state == "run":
             self.run.update()
+        elif self.state == "complete run":
+            self.complete_menu.update()
+        elif self.state == "died run":
+            self.died_menu.update()
+        
+        if self.state != "run":
+            if not pygame.mouse.get_visible(): # reset mouse to be visible
+                pygame.mouse.set_visible(True)
+
     
     def start_run(self) -> None:
         """starts a new run"""
@@ -27,4 +37,16 @@ class MainMenu(HeadingMenu):
     
     def complete_run(self) -> None:
         """called when a port is interacted with to finish a run"""
+        settings.GAME.save_progress()
+        self.complete_menu = EndMenu("RUN COMPLETE")
         self.state = "complete run"
+    
+    def died_run(self) -> None:
+        """called when the player dies in a run"""
+        self.died_menu = EndMenu("YOU DIED")
+        self.state = "died run"
+    
+    def return_main_menu(self) -> None:
+        """returns to main menu"""
+        self.state = "menu"
+        del self.run # delete current run

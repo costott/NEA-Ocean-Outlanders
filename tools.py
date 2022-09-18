@@ -14,3 +14,11 @@ def scaled_rect(rect: pygame.Rect, width_scale: float, height_scale: float) -> p
     scaled.height *= height_scale
     scaled.center = rect.center
     return scaled
+
+def hms(time: float) -> str:
+    """converts time into hours:minutes:seconds"""
+    time = int(time)
+    time_hours = time // 3600
+    time_minutes = (time - time_hours*3600) // 60
+    time_seconds = round(time - (time_hours*3600+time_minutes*60))
+    return f"{time_hours:2}:{time_minutes:2}:{time_seconds:2}".replace(" ", "0")

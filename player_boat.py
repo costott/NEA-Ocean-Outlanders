@@ -189,4 +189,4 @@ class PlayerBoat(Boat):
     
     def die(self) -> None:
         """what happens when the player dies"""
-        pass # to be implemented later
+        settings.GAME.main_menu.died_run()

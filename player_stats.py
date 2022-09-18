@@ -4,3 +4,6 @@ class PlayerStats:
         self.hp = hp
         self.damage = damage
         self.speed = speed
+
+        self.highscore_time = 0
+        self.highscore_wave = 0
