@@ -2,6 +2,7 @@ import pygame
 import sys 
 
 from player_stats import PlayerStats
+from start_menu import StartMenu
 from main_menu import MainMenu
 import settings
 
@@ -20,8 +21,8 @@ class Game:
         # holds the player stats object once signed up/logged in
         self.player_stats = PlayerStats(settings.PB_BASE_HP, settings.PB_BASE_DAMAGE, settings.PB_BASE_SPEED)    
 
-        self.state = "main menu"    # current state of the game (start or main menu)
-        self.start_screen = None    # holds the start menu
+        self.state = "start"    # current state of the game (start or main menu)
+        self.start_menu = StartMenu()    # holds the start menu
         self.main_menu = MainMenu() # holds the main menu
         
         settings.GAME = self        # puts the game object into settings
@@ -40,7 +41,7 @@ class Game:
         self.screen.fill('#d0f2fd') # fills the screen a light blue
 
         if self.state == "start":       # updates and draws the start menu
-            pass
+            self.start_menu.update()
         elif self.state == "main menu": # updates and draws the main menu
             self.main_menu.update()
 
@@ -53,6 +54,11 @@ class Game:
     def save_progress(self) -> None:
         """saves player progress to username using player stats"""
         pass
+
+    def exit_game(self) -> None:
+        """closes the whole game"""
+        pygame.quit()
+        self.running = False
 
 def main():
     game = Game() # instantiate the game

@@ -1,6 +1,8 @@
 import pygame
+import math
 
 import settings
+import tools
 
 class Button:
     """Interactible button in menus"""
@@ -74,9 +76,27 @@ class Menu:
         self.buttons = buttons
 
         self.screen = pygame.display.get_surface() # gets the game screen to use to draw
+
+        self.get_background()
+        self.bg_scroll = -settings.PIECE_SIZE      # top of the background image
+    
+    def get_background(self) -> None:
+        """gets the background for the menu"""
+        rows = math.ceil(settings.HEIGHT/settings.PIECE_SIZE) + 1
+        cols = math.ceil(settings.WIDTH/settings.PIECE_SIZE)
+
+        water_image = pygame.image.load("assets/water.png").convert()
+
+        self.background = pygame.Surface((settings.WIDTH, settings.HEIGHT + settings.PIECE_SIZE))
+        # draw water images to background
+        for row in range(rows):
+            for col in range(cols):
+                self.background.blit(water_image, (col*settings.PIECE_SIZE, row*settings.PIECE_SIZE))
     
     def update(self) -> None:
         """called once per frame"""
+        self.screen.blit(self.background, (0,self.bg_scroll))
+
         for button in self.buttons:
             button.update()
             button.draw(self.screen)

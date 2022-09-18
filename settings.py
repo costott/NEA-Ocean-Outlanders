@@ -29,6 +29,9 @@ BAR_HEIGHT = 80         # height of top bar
 HEADING_BORDER_SIZE = 5 # border width of heading and top bar borders
 HEADING_TEXT_SIZE = 100 # size of the heading text
 
+# START MENU
+START_MENU_BG_SCROLL_SPEED = 64 # pixels scrolled per second
+
 # END MENU
 END_MENU_HIGHSCORE_GAP = 200    # gap between stat and highscore
 END_MENU_BAR_GAP = 20           # gap between bars
