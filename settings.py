@@ -81,3 +81,12 @@ HUD_PADDING = 15                # pixel padding between text on HUD
 # MAP
 MAIN_MAP_IMAGE = "map/map.png"  # location of the main map image
 PIECE_SIZE = 64                 # width+height in pixels of map piece
+
+# PORTS
+PORT_IMAGE = "map/port.png"     # location of the port image
+PORT_RADIUS = 300               # radius around port where player can interact with it
+PORT_RING_MIN_RAD = 50          # minimum radius of ring around port on HUD
+PORT_RING_MAX_RAD = 100         # maximum radius of ring around port on HUD
+PORT_RING_SPEED = 50            # change in radius of ring around port on HUD per second
+PORT_RING_WIDTH = 5             # width of ring around port on HUD
+PORT_Y_OFFSET = 40              # how high up the text prompt for the port is above the port

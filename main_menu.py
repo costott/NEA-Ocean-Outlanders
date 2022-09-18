@@ -24,3 +24,7 @@ class MainMenu(HeadingMenu):
         """starts a new run"""
         self.run = Play() # creates a new run
         self.state = "run"
+    
+    def complete_run(self) -> None:
+        """called when a port is interacted with to finish a run"""
+        self.state = "complete run"

@@ -5,6 +5,7 @@ import csv
 from enemy_spawner import EnemySpawner
 from player_boat import PlayerBoat
 from map_piece import MapPiece
+from port import Port
 from hud import HUD
 import settings
 import tools
@@ -20,6 +21,7 @@ class Play:
         self.collide_sprites = pygame.sprite.Group() # sprites that collide with boats
         self.enemy_spawnable = pygame.sprite.Group() # places enemies can spawn
         self.boat_sprites = pygame.sprite.Group()    # all boats
+        self.port_sprites = pygame.sprite.Group()    # all ports
         self.create_map()
 
         self.camera = Camera()
@@ -78,6 +80,8 @@ class Play:
                         player_spawns.append(topleft)
                     elif layer_name == "spawnable":
                         MapPiece([self.enemy_spawnable], topleft)
+                    elif layer_name == "ports":
+                        Port([self.screen_sprites, self.port_sprites], topleft)
 
         self.player_boat = PlayerBoat([self.screen_sprites, self.boat_sprites], random.choice(player_spawns))
     

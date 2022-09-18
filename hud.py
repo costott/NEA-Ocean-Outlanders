@@ -12,10 +12,16 @@ class HUD:
         self.crosshair = pygame.transform.rotozoom(self.crosshair, 0, settings.CROSSHAIR_SCALE) # scale to size
         self.crosshair_rect = self.crosshair.get_rect() # conatiner for crosshair for easy positionings
 
-        self.info_font = pygame.font.Font(None, settings.HUD_INFO_FONT_SIZE)
+        self.info_font = pygame.font.Font(None, settings.HUD_INFO_FONT_SIZE) # font for text on HUD
+
+        # text prompt on HUD when player in range of a port
+        self.port_text = self.info_font.render("[E] FINISH RUN", True, settings.DARK_BROWN)
+        self.port_rect = self.port_text.get_rect()
     
     def draw(self) -> None:
         """draw the HUD"""
+        self.ports()
+
         # draw main hud elements  
         self.wave() 
         self.gold()
@@ -195,3 +201,14 @@ class HUD:
 
         pygame.draw.rect(self.screen, settings.BROWN, health_bar, border_radius=settings.BAR_RADIUS)
         pygame.draw.rect(self.screen, settings.LIGHT_BLUE, inner_health_bar, border_radius=settings.BAR_RADIUS)
+    
+    def ports(self) -> None:
+        """draws the rings around the ports and if the player can interact with the dock"""
+        for port in settings.current_run.port_sprites:
+            pygame.draw.circle(self.screen, settings.WHITE, port.centre+settings.current_run.camera.camera_move, 
+                               port.ring_radius, width=settings.PORT_RING_WIDTH)
+
+            if port.player_in_range:
+                self.port_rect.center = port.centre+settings.current_run.camera.camera_move
+                self.port_rect.centery -= 40
+                self.screen.blit(self.port_text, self.port_rect)
