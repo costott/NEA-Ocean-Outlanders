@@ -50,3 +50,7 @@ class MainMenu(HeadingMenu):
         """returns to main menu"""
         self.state = "menu"
         del self.run # delete current run
+    
+    def open_shop(self) -> None:
+        """opens the shop"""
+        pass

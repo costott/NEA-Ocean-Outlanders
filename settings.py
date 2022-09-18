@@ -9,6 +9,7 @@ current_run = None # holds current run for easy access
 
 # COLOURS
 LIGHT_BROWN = "#B47B41"
+LIGHT_BROWN_HOVER = "#D49455"
 BROWN = "#8d6333"
 DARK_BROWN = "#6F4D28"
 LIGHT_BLUE = "#6B93B8"

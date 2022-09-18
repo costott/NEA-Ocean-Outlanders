@@ -3,6 +3,7 @@ import random
 import csv
 
 from enemy_spawner import EnemySpawner
+from menu import HeadingMenu, Button
 from player_boat import PlayerBoat
 from map_piece import MapPiece
 from port import Port
@@ -15,7 +16,18 @@ class Play:
     def __init__(self):
         self.screen = pygame.display.get_surface() # gets game screen for easy access
         self.HUD = HUD()        # holds the HUD object
-        self.pause_menu = None  # holds the run's pause menu
+
+        # PAUSE MENU
+        resume = Button("RESUME", (settings.WIDTH/2, settings.HEIGHT/3), 200, 
+                (settings.WIDTH/2, settings.HEIGHT/2-settings.HEIGHT/16), settings.LIGHT_BLUE, 
+                settings.LIGHT_BLUE_HOVER, settings.DARK_BLUE, self.resume)
+        shop = Button("SHOP", (settings.WIDTH/4, settings.HEIGHT/8), 75, 
+                (settings.WIDTH/2, settings.HEIGHT/2+settings.HEIGHT/4), settings.LIGHT_BLUE,  
+                settings.LIGHT_BLUE_HOVER, settings.DARK_BLUE, settings.GAME.main_menu.open_shop)
+        quit = Button("quit", (shop.rect.width, shop.rect.height), 75, 
+                (settings.WIDTH/2, shop.rect.centery+shop.rect.height*1.25), settings.LIGHT_BROWN, settings.LIGHT_BROWN_HOVER, 
+                settings.DARK_BROWN, settings.GAME.main_menu.return_main_menu)
+        self.pause_menu = HeadingMenu([resume,shop,quit], "PAUSED")  # holds the run's pause menu
 
         self.screen_sprites = ScreenSpriteGroup()    # sprites visible on screen
         self.collide_sprites = pygame.sprite.Group() # sprites that collide with boats
@@ -100,12 +112,26 @@ class Play:
             self.enemy_spawner.update()
 
             self.timer()
+            self.check_pause()
 
             self.HUD.draw()
+        else:
+            if not pygame.mouse.get_visible(): # make sure mouse is visible
+                pygame.mouse.set_visible(True)
+
+            self.pause_menu.update()
     
     def timer(self) -> None:
         """timer counts up"""
         self.time += 1/tools.get_fps()
+    
+    def check_pause(self) -> None:
+        """checks if the game is paused"""
+        self.paused = pygame.key.get_pressed()[pygame.K_ESCAPE]
+    
+    def resume(self) -> None:
+        """resumes the game"""
+        self.paused = False
     
     def map_csv_list(self, name: str) -> list:
         """returns a list from a given csv file for the map\n
