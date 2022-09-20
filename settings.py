@@ -32,6 +32,23 @@ HEADING_TEXT_SIZE = 100 # size of the heading text
 # START MENU
 START_MENU_BG_SCROLL_SPEED = 64 # pixels scrolled per second
 
+# DATABASE
+DATABASE_LOCATION = "ocean_outlanders.db"
+
+# LOGGING IN
+MIN_USERNAME_LEN = 1   # minimum accepted username length
+MAX_USERNAME_LEN = 12  # maximum accepted username length
+MIN_PASSWORD_LEN = 4   # mininum accepted password length
+MAX_PASSWORD_LEN = 60  # maximum accepted password length
+
+# TEXT BOX
+TEXT_BOX_WIDTH_SCALE = 1.5     # fraction of WIDTH of screen
+TEXT_BOX_HEIGHT_SCALE = 10     # fraction of HEIGHT of screen
+TEXT_BOX_BORDER_WIDTH = 10     # width of border around text box
+TEXT_BOX_FONT_SIZE = 30        # font size of text box heading
+TEXT_BOX_TEXT_OFFSET = 5       # y offset of text box heading
+TEXT_BOX_INPUT_OFFSET = 5      # x offset of text in text box
+
 # END MENU
 END_MENU_HIGHSCORE_GAP = 200    # gap between stat and highscore
 END_MENU_BAR_GAP = 20           # gap between bars

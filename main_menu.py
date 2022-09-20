@@ -37,7 +37,6 @@ class MainMenu(HeadingMenu):
     
     def complete_run(self) -> None:
         """called when a port is interacted with to finish a run"""
-        settings.GAME.save_progress()
         self.complete_menu = EndMenu("RUN COMPLETE")
         self.state = "complete run"
     

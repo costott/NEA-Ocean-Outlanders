@@ -4,6 +4,7 @@ import sys
 from player_stats import PlayerStats
 from start_menu import StartMenu
 from main_menu import MainMenu
+from dbms import dbms
 import settings
 
 class Game:
@@ -16,10 +17,8 @@ class Game:
         self.clock = pygame.time.Clock() # creates the clock object
         self.running = True         # keeps the main game loop running
 
-        self.player_username = None # holds the player's username once signed up/logged in
-
-        # holds the player stats object once signed up/logged in
-        self.player_stats = PlayerStats(settings.PB_BASE_HP, settings.PB_BASE_DAMAGE, settings.PB_BASE_SPEED)    
+        # holds the player stats object once signed up/logged in (default for testing)
+        self.player_stats = PlayerStats("test", 0, settings.PB_BASE_HP, settings.PB_BASE_DAMAGE, settings.PB_BASE_SPEED, 0, 0, 0, 0)
 
         self.state = "start"    # current state of the game (start or main menu)
         self.start_menu = StartMenu()    # holds the start menu
@@ -36,7 +35,7 @@ class Game:
     
     def update(self) -> None:
         """called once per frame"""
-        pygame.event.get()          # has to be called to tell pygame the game is active and running
+        pygame.event.get(exclude=pygame.KEYDOWN)  # has to be called to tell pygame the game is active and running
         
         self.screen.fill('#d0f2fd') # fills the screen a light blue
 
@@ -46,14 +45,6 @@ class Game:
             self.main_menu.update()
 
         pygame.display.update()     # updates the game screen so all drawn images are updated
-    
-    def load_progress(self) -> None:
-        """loads player progress using username into player stats"""
-        pass
-
-    def save_progress(self) -> None:
-        """saves player progress to username using player stats"""
-        pass
 
     def exit_game(self) -> None:
         """closes the whole game"""
