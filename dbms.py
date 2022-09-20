@@ -83,5 +83,18 @@ class DBMS:
         self.close_connection()
 
         settings.GAME.player_stats = PlayerStats(username, gold, hp, dmg, speed, high_time, high_wave, explosive, chaining)
+    
+    def save_progress(self) -> None:
+        """puts player stats from PlayerStats object into database"""
+        player_stats = settings.GAME.player_stats
+
+        self.open_connection()
+        self.cursor.execute("UPDATE User SET gold = ?, high_time = ?, high_wave = ? WHERE username = ?", 
+            (player_stats.gold, player_stats.highscore_time, player_stats.highscore_wave, player_stats.username))
+        self.cursor.execute("""UPDATE Upgrade SET hp = ?, dmg = ?, speed = ?, explosive = ?, chaining = ? 
+        WHERE username = ?""", (player_stats.hp, player_stats.damage, player_stats.speed, player_stats.explosive, 
+                                player_stats.chaining, player_stats.username))
+        self.connect.commit()
+        self.close_connection()
 
 dbms = DBMS()

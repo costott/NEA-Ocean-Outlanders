@@ -48,6 +48,7 @@ class Game:
 
     def exit_game(self) -> None:
         """closes the whole game"""
+        dbms.save_progress()
         pygame.quit()
         self.running = False
 

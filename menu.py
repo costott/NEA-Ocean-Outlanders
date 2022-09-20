@@ -27,7 +27,7 @@ class Button:
         self.border_colour = border_colour # colour of the border around buttons
 
         # holds whether the mouse button has already been pressed (to ignore holding the mouse down)
-        self.clicked = False 
+        self.clicked = True 
 
         self.action = action # function to be called when the button's pressed
     

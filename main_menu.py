@@ -1,8 +1,10 @@
+from cProfile import run
 import pygame
 
 from menu import HeadingMenu, Button
 from end_menu import EndMenu
 from play import Play
+from dbms import dbms
 import settings
 
 class MainMenu(HeadingMenu):
@@ -10,7 +12,10 @@ class MainMenu(HeadingMenu):
         play_button = Button("PLAY", (settings.WIDTH/2, settings.HEIGHT/3.5), 225, 
                              (settings.WIDTH/2,settings.HEIGHT/2-50), settings.LIGHT_BLUE, settings.LIGHT_BLUE_HOVER, 
                              settings.DARK_BLUE, self.start_run)
-        super().__init__([play_button], "MAIN MENU")
+        exit_button = Button("exit", (settings.WIDTH/10, settings.HEIGHT/15), 25,
+                (settings.WIDTH/2, settings.HEIGHT-0.55*settings.HEIGHT/7.2),
+                settings.LIGHT_BROWN, settings.LIGHT_BROWN_HOVER, settings.DARK_BROWN, self.exit_game)
+        super().__init__([play_button, exit_button], "MAIN MENU")
 
         self.state = "menu" # current state of the main menu
     
@@ -29,7 +34,6 @@ class MainMenu(HeadingMenu):
             if not pygame.mouse.get_visible(): # reset mouse to be visible
                 pygame.mouse.set_visible(True)
 
-    
     def start_run(self) -> None:
         """starts a new run"""
         self.run = Play() # creates a new run
@@ -37,6 +41,13 @@ class MainMenu(HeadingMenu):
     
     def complete_run(self) -> None:
         """called when a port is interacted with to finish a run"""
+        settings.GAME.player_stats.gold += self.run.gold # add run gold
+        
+        # update highscores
+        settings.GAME.player_stats.highscore_time = max(settings.GAME.player_stats.highscore_time, self.run.time)
+        settings.GAME.player_stats.highscore_wave = max(settings.GAME.player_stats.highscore_wave, self.run.enemy_spawner.current_wave)
+    
+        dbms.save_progress()
         self.complete_menu = EndMenu("RUN COMPLETE")
         self.state = "complete run"
     
@@ -53,3 +64,7 @@ class MainMenu(HeadingMenu):
     def open_shop(self) -> None:
         """opens the shop"""
         pass
+
+    def exit_game(self) -> None:
+        """calls the game's exit game method"""
+        settings.GAME.exit_game()
