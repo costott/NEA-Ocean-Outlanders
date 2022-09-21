@@ -31,7 +31,7 @@ class Game:
         while self.running:
             self.update()
             self.clock.tick(settings.TARGET_FPS)
-        sys.exit()                  # exits the game when running set to false
+        #sys.exit()                  # exits the game when running set to false
     
     def update(self) -> None:
         """called once per frame"""
@@ -49,12 +49,20 @@ class Game:
     def exit_game(self) -> None:
         """closes the whole game"""
         dbms.save_progress()
-        pygame.quit()
+        #pygame.quit()
         self.running = False
 
 def main():
     game = Game() # instantiate the game
-    game.run()    # run the game
+    game.run()    # run the game 
 
 if __name__ == "__main__":
-    main()
+    #main()
+    import cProfile
+    import pstats
+    with cProfile.Profile() as pr:
+        main()
+
+    stats = pstats.Stats(pr)
+    stats.sort_stats(pstats.SortKey.TIME)
+    stats.print_stats(40)

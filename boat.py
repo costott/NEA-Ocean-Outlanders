@@ -31,6 +31,8 @@ class Boat(pygame.sprite.Sprite): # boat is built upon pygame's sprite class
 
         self.cannons = [] # boat's cannons
 
+        self.collide_center = pygame.math.Vector2(99999, 99999)
+
     def make_main_boat_image(self) -> None:
         """compile all boat images into one image"""
         # make empty container for images (main_sail set by specific boat)
@@ -49,6 +51,8 @@ class Boat(pygame.sprite.Sprite): # boat is built upon pygame's sprite class
     
     def update(self) -> None:
         """called once per frame"""
+        self.update_collide_range()
+
         self.rotate()
         self.move()
     
@@ -81,7 +85,26 @@ class Boat(pygame.sprite.Sprite): # boat is built upon pygame's sprite class
     
     def collision(self) -> bool:
         """checks for boat collision with collide sprites"""
-        for sprite in settings.current_run.collide_sprites:
+        for sprite in self.collide_sprites:
             if sprite.rect.collidepoint(self.rect.center):
                 return True
         return False # no collisions
+    
+    def update_collide_range(self) -> None:
+        """sees if the boat needs to update its colliders"""
+        # boat went out of range in the x direction
+        if abs(self.pos.x - self.collide_center.x) > settings.COLLIDE_SIZE: 
+            self.update_colliders()
+        # boat went out of range in the y direction
+        elif abs(self.pos.y - self.collide_center.y) > settings.COLLIDE_SIZE: 
+            self.update_colliders()
+
+    def update_colliders(self) -> None:
+        """makes new collide sprites with sprites in proper range"""
+        self.collide_center = self.pos.copy()        # original centre of collide range
+        self.collide_sprites = pygame.sprite.Group() # sprites in collide range
+        for sprite in settings.current_run.collide_sprites:
+            if abs(self.pos.x - sprite.rect.centerx) < settings.COLLIDE_SIZE:   # x in range
+                self.collide_sprites.add(sprite)
+            elif abs(self.pos.y - sprite.rect.centery) < settings.COLLIDE_SIZE: # y in range
+                self.collide_sprites.add(sprite)

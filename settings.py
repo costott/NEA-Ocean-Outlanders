@@ -2,7 +2,7 @@
 WIDTH = 0
 HEIGHT = 0
 
-TARGET_FPS = 200 # how many times the game is aiming to update every second
+TARGET_FPS = -1 # how many times the game is aiming to update every second
 
 GAME = None        # holds the game object for easy access
 current_run = None # holds current run for easy access
@@ -60,6 +60,7 @@ END_MENU_BAR_RADIUS = 15        # border radius of bars
 BOAT_SCALE = 1              # multiplier for the boat image size
 BOAT_MAX_ANGLE_SPEED = 20   # maximum speed the boat can turn in pixels/second
 BOAT_BASE_SPEED = 50        # absolute speed of the boat in pixels/second
+COLLIDE_SIZE = 100          # 'radius' of square chunk for boat collision
 
 # PLAYER BOAT
 PB_ANGLE_INP_ACCEL = BOAT_MAX_ANGLE_SPEED/3 # how much the angle velocity can change per second
