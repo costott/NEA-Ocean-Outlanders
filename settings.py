@@ -12,15 +12,17 @@ LIGHT_BROWN = "#B47B41"
 LIGHT_BROWN_HOVER = "#D49455"
 BROWN = "#8d6333"
 DARK_BROWN = "#6F4D28"
+DARK_BROWN_HOVER = "#82613C"
 LIGHT_BLUE = "#6B93B8"
 LIGHT_BLUE_HOVER = "#7DA5CA"
 DARK_BLUE = "#46627A"
+DARK_BLUE_HOVER = "#5E7992"
 WHITE = "#d8e3ed"
 RED = "#ff1100"
 
 # BUTTONS
 BUTTON_GROW = 1.1               # multiplies the button size for maximum growth size
-BUTTON_GROW_SPEED = 2           # amount of pixels buttons grow/shrink per frame
+BUTTON_GROW_SPEED = 1.5           # amount of pixels buttons grow/shrink per frame
 BUTTON_TEXT_COLOUR = 'white'    # colour of every button's text
 BUTTON_BORDER_SIZE = 5          # size (in pixels) of the border around buttons
 
@@ -124,3 +126,16 @@ PORT_RING_MAX_RAD = 100         # maximum radius of ring around port on HUD
 PORT_RING_SPEED = 50            # change in radius of ring around port on HUD per second
 PORT_RING_WIDTH = 5             # width of ring around port on HUD
 PORT_Y_OFFSET = 40              # how high up the text prompt for the port is above the port
+
+# SHOP
+SHOP_GOLD_FONT_SIZE = 50        # font size of gold at top of shop
+SHOP_GOLD_PADDING = 10          # space between gold text and box it's in
+SHOP_BUTTON_WIDTH_SCALE = 3     # fraction of WIDTH of screen
+SHOP_BUTTON_HEIGHT_SCALE = 4    # fraction of HEIGHT of screen
+SHOP_BUTTON_BORDER_WIDTH = 10   # width of border around shop buttons
+SHOP_BUTTON_BORDER_RADIUS = 30  # radius of shop buttons
+SHOP_PRICE_WIDTH_SCALE = 2.5    # fraction of width of shop button
+
+# UPGRADES
+EXPLOSIVE_PRICE = 100  # price of explosive cannonball
+CHAINING_PRICE = 250   # price of chaining cannonball
