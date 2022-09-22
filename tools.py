@@ -22,3 +22,14 @@ def hms(time: float) -> str:
     time_minutes = (time - time_hours*3600) // 60
     time_seconds = round(time - (time_hours*3600+time_minutes*60))
     return f"{time_hours:2}:{time_minutes:2}:{time_seconds:2}".replace(" ", "0")
+
+def comma_number(number: float) -> str:
+    """returns a number with commas to split thousands, millions etc"""
+    number = int(number) # ignore decimals
+    reversed_num = str(number)[::-1] # reverse number
+    comma_number = ""
+    for i, digit in enumerate(reversed_num):
+        if i % 3 == 0 and i != 0: # add comma every 3 numbers
+            comma_number += ","
+        comma_number += digit
+    return comma_number[::-1]

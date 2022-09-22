@@ -1,3 +1,5 @@
+import settings
+
 class PlayerStats:
     """holds the stats for the player boat"""
     def __init__(self, username: str, gold: float, hp: float, damage: float, speed: float, high_time: float, 
@@ -14,3 +16,21 @@ class PlayerStats:
 
         self.explosive = explosive
         self.chaining = chaining
+    
+    def buy_explosive(self) -> None:
+        """buy the explosive cannonball"""
+        # player has enough gold and doesn't have it yet
+        if self.gold < settings.EXPLOSIVE_PRICE or self.explosive:
+            return
+        
+        self.gold -= settings.EXPLOSIVE_PRICE # spend gold
+        self.explosive = True                 # unlock cannonball
+    
+    def buy_chaining(self) -> None:
+        """buy the chaining cannonball"""
+        # player has enough gold and doesn't have it yet
+        if self.gold < settings.CHAINING_PRICE or self.chaining:
+            return
+        
+        self.gold -= settings.CHAINING_PRICE # spend gold
+        self.chaining = True                 # unlock cannonball
