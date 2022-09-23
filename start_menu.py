@@ -1,4 +1,3 @@
-from cgitb import text
 import pygame
 
 from menu import HeadingMenu, Menu, Button
