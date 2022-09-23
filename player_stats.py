@@ -34,3 +34,43 @@ class PlayerStats:
         
         self.gold -= settings.CHAINING_PRICE # spend gold
         self.chaining = True                 # unlock cannonball
+    
+    def stat_upgrade_info(self, name: str, stat: float, percent_increase: float, unit_price: float) -> tuple[str, float, float, int]:
+        """returns name of stat current stat, how much to upgrade, cost of upgrade"""
+        return (name, f"{float(stat):.2f}", f"{stat*percent_increase:.2f}", int(stat*percent_increase*unit_price))
+    
+    def hp_upgrade(self) -> tuple[str, float, float, int]:
+        """returns name, stat, increase, price of hp upgrade"""
+        return self.stat_upgrade_info("HP", self.hp, settings.HP_PERCENT_INCREASE, settings.HP_UNIT_PRICE)
+
+    def buy_hp(self) -> None:
+        """buys more hp"""
+        price = int(self.hp*settings.HP_PERCENT_INCREASE*settings.HP_UNIT_PRICE)
+        if self.gold < price: return
+
+        self.hp += self.hp*settings.HP_PERCENT_INCREASE
+        self.gold -= price
+
+    def dmg_upgrade(self) -> tuple[str, float, float, int]:
+        """returns name, stat, increase, price of dmg upgrade"""
+        return self.stat_upgrade_info("DMG", self.damage, settings.DMG_PERCENT_INCREASE, settings.DMG_UNIT_PRICE)
+        
+    def buy_dmg(self) -> None:
+        """buys more damage"""
+        price = int(self.damage*settings.DMG_PERCENT_INCREASE*settings.DMG_UNIT_PRICE)
+        if self.gold < price: return
+
+        self.damage += self.damage*settings.DMG_PERCENT_INCREASE
+        self.gold -= price
+
+    def spd_upgrade(self) -> tuple[str, float, float, int]:
+        """returns name, stat, increase, price of spd upgrade"""
+        return self.stat_upgrade_info("SPD", self.speed, settings.SPEED_PERCENT_INCREASE, settings.SPEED_UNIT_PRICE)
+    
+    def buy_spd(self) -> None:
+        """buys more spd"""
+        price = int(self.speed*settings.SPEED_PERCENT_INCREASE*settings.SPEED_UNIT_PRICE)
+        if self.gold < price: return
+
+        self.speed += self.speed*settings.SPEED_PERCENT_INCREASE
+        self.gold -= price

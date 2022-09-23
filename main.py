@@ -18,7 +18,7 @@ class Game:
         self.running = True         # keeps the main game loop running
 
         # holds the player stats object once signed up/logged in (default for testing)
-        self.player_stats = PlayerStats("test", 0, settings.PB_BASE_HP, settings.PB_BASE_DAMAGE, settings.PB_BASE_SPEED, 0, 0, 0, 0)
+        self.player_stats = PlayerStats("test", 1234, settings.PB_BASE_HP, settings.PB_BASE_DAMAGE, settings.PB_BASE_SPEED, 0, 0, 0, 0)
 
         self.state = "start"    # current state of the game (start or main menu)
         self.start_menu = StartMenu()    # holds the start menu

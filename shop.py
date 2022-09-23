@@ -60,7 +60,7 @@ class ShopButton(Button):
 
 class SingleBuyShopButton(ShopButton):
     """shop button that can only be bought once"""
-    def __init__(self, center_pos: tuple[float, float], price: int, action, check_bought) -> None:
+    def __init__(self, center_pos: tuple[float, float], price: int, action, check_bought):
         super().__init__(center_pos, price, action)
 
         self.check_bought = check_bought # method which checks if the upgrade's already bought
@@ -87,6 +87,64 @@ class SingleBuyShopButton(ShopButton):
                          border_radius=settings.SHOP_BUTTON_BORDER_RADIUS)
         self.screen.blit(self.price_text, self.price_text_rect)
 
+class StatShopButton(ShopButton):
+    """shop button for stats"""
+    def __init__(self, center_pos: tuple[float, float], upgrade_info, buy_action, stat_colour: pygame.Color, 
+                 stat_border_colour: pygame.Color):
+        self.upgrade_info = upgrade_info # method which returns information about the upgrade
+        self.buy_action = buy_action     # method which buys the upgrade
+        super().__init__(center_pos, self.upgrade_info()[3], self.upgrade_action) # initialise StatButton
+
+        self.stat_colour = stat_colour               # colour of bar to show current stat
+        self.stat_border_colour = stat_border_colour # colour of border of bar above
+
+        self.current_stat_font = pygame.font.Font(None, 80) # font for the stat+upgrade on the buton
+        self.current_stat = self.upgrade_info()[1]          # gets the current stat amount
+    
+    def upgrade_action(self) -> None:
+        """what happens when the button's pressed"""
+        self.buy_action()                          # buy the upgrade
+        self.current_stat = self.upgrade_info()[1] # get the new stat number
+        self.price = self.upgrade_info()[3]        # get the new price
+
+    def make_stat(self) -> None:
+        """makes the stat bar above button"""
+        self.stat_rect = self.back_rect.copy()  # rect of bar to show current stat
+        self.stat_rect.midbottom = self.back_rect.center
+        self.stat_border_rect = self.stat_rect.inflate(settings.SHOP_BUTTON_BORDER_WIDTH, 
+                                                       settings.SHOP_BUTTON_BORDER_WIDTH)
+        # text to show current stat
+        self.stat_text = self.current_stat_font.render(str(self.current_stat), True, "white") 
+        self.stat_text_rect = self.stat_text.get_rect(center = (self.stat_rect.centerx, 
+                                                                self.stat_rect.top+self.stat_rect.height/4))
+    
+    def make_upgrade(self) -> None:
+        """makes the text to show how much the stat's upgraded"""
+        # middle of non-price part of the button
+        middle = (self.price_rect.right + (self.back_rect.width-self.price_rect.width)/2, self.back_rect.centery)
+
+        # displays how much the upgrade will do
+        self.stat_add = self.current_stat_font.render(f"+{self.upgrade_info()[2]}", True, "white")
+        self.stat_add_rect = self.stat_add.get_rect(midbottom = middle)
+        self.stat_name = self.current_stat_font.render(str(self.upgrade_info()[0]), True, "white")
+        self.stat_name_rect = self.stat_name.get_rect(midtop = middle)
+
+    def update(self) -> None:
+        """called once per frame"""
+        self.make_stat()    # remake the bar in case the button changes size
+        self.make_upgrade() # remake the upgrade information in case the button changes size
+        
+        # draw stat bar to screen
+        pygame.draw.rect(self.screen, self.stat_border_colour, self.stat_border_rect, border_radius=settings.SHOP_BUTTON_BORDER_RADIUS)
+        pygame.draw.rect(self.screen, self.stat_colour, self.stat_rect, border_radius=settings.SHOP_BUTTON_BORDER_RADIUS)
+        self.screen.blit(self.stat_text, self.stat_text_rect)
+
+        super().update() # make rest of shop button
+
+        # draw text to show how much the stat will be upgraded
+        self.screen.blit(self.stat_add, self.stat_add_rect)
+        self.screen.blit(self.stat_name, self.stat_name_rect)
+
 class Shop(HeadingMenu):
     """shop menu to upgrade player stats"""
     def __init__(self, return_method):
@@ -96,11 +154,17 @@ class Shop(HeadingMenu):
         super().__init__([back_button], "SHOP")
 
         # upgrade buttons
-        explosive_button = SingleBuyShopButton((settings.WIDTH/5, settings.HEIGHT/3), settings.EXPLOSIVE_PRICE, 
-                                      settings.GAME.player_stats.buy_explosive, lambda: settings.GAME.player_stats.explosive)
-        chaining_button = SingleBuyShopButton((settings.WIDTH-settings.WIDTH/5, settings.HEIGHT/3), settings.CHAINING_PRICE, 
-                                     settings.GAME.player_stats.buy_chaining, lambda: settings.GAME.player_stats.chaining)
-        self.upgrade_buttons = [explosive_button, chaining_button]
+        explosive_button = SingleBuyShopButton((settings.WIDTH/6, settings.HEIGHT/3.6), settings.EXPLOSIVE_PRICE, 
+                            settings.GAME.player_stats.buy_explosive, lambda: settings.GAME.player_stats.explosive)
+        chaining_button = SingleBuyShopButton((settings.WIDTH/1.2, settings.HEIGHT/3.6), settings.CHAINING_PRICE, 
+                            settings.GAME.player_stats.buy_chaining, lambda: settings.GAME.player_stats.chaining)
+        hp_button = StatShopButton((settings.WIDTH/6, settings.HEIGHT/1.44), settings.GAME.player_stats.hp_upgrade, 
+                            settings.GAME.player_stats.buy_hp, settings.RED, settings.DARK_RED)
+        dmg_button  = StatShopButton((settings.WIDTH/2, settings.HEIGHT/1.44), settings.GAME.player_stats.dmg_upgrade,
+                            settings.GAME.player_stats.buy_dmg, settings.YELLOW, settings.DARK_YELLOW)
+        spd_button = StatShopButton((settings.WIDTH/1.2, settings.HEIGHT/1.44), settings.GAME.player_stats.spd_upgrade,
+                            settings.GAME.player_stats.buy_spd, settings.GREEN, settings.DARK_GREEN)
+        self.upgrade_buttons = [explosive_button, chaining_button, hp_button, dmg_button, spd_button]
 
         self.return_method = return_method # method to call to exit shop
 

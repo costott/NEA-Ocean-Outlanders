@@ -18,7 +18,12 @@ LIGHT_BLUE_HOVER = "#7DA5CA"
 DARK_BLUE = "#46627A"
 DARK_BLUE_HOVER = "#5E7992"
 WHITE = "#d8e3ed"
+DARK_RED = "#760000"
 RED = "#ff1100"
+DARK_YELLOW = "#575F00"
+YELLOW = "#CDDC21"
+DARK_GREEN = "#006A19"
+GREEN = "#00FF3C"
 
 # BUTTONS
 BUTTON_GROW = 1.1               # multiplies the button size for maximum growth size
@@ -130,12 +135,18 @@ PORT_Y_OFFSET = 40              # how high up the text prompt for the port is ab
 # SHOP
 SHOP_GOLD_FONT_SIZE = 50        # font size of gold at top of shop
 SHOP_GOLD_PADDING = 10          # space between gold text and box it's in
-SHOP_BUTTON_WIDTH_SCALE = 3     # fraction of WIDTH of screen
-SHOP_BUTTON_HEIGHT_SCALE = 4    # fraction of HEIGHT of screen
+SHOP_BUTTON_WIDTH_SCALE = 3.5   # fraction of WIDTH of screen
+SHOP_BUTTON_HEIGHT_SCALE = 4.25 # fraction of HEIGHT of screen
 SHOP_BUTTON_BORDER_WIDTH = 10   # width of border around shop buttons
 SHOP_BUTTON_BORDER_RADIUS = 30  # radius of shop buttons
 SHOP_PRICE_WIDTH_SCALE = 2.5    # fraction of width of shop button
 
 # UPGRADES
-EXPLOSIVE_PRICE = 100  # price of explosive cannonball
-CHAINING_PRICE = 250   # price of chaining cannonball
+EXPLOSIVE_PRICE = 100         # price of explosive cannonball
+CHAINING_PRICE = 250          # price of chaining cannonball
+HP_UNIT_PRICE = 0.3           # amount of gold per 1 hp
+HP_PERCENT_INCREASE = 0.1     # % increase of current speed to next upgrade
+DMG_UNIT_PRICE = 4            # amount of gold per 1 damage 
+DMG_PERCENT_INCREASE = 0.05   # % increase of current damage to next upgrade
+SPEED_UNIT_PRICE = 10         # amount of gold per 1 speed
+SPEED_PERCENT_INCREASE = 0.01 # % increase of current speed to next upgrade

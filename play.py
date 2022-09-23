@@ -7,6 +7,7 @@ from menu import HeadingMenu, Button
 from player_boat import PlayerBoat
 from map_piece import MapPiece
 from port import Port
+from shop import Shop
 from hud import HUD
 import settings
 import tools
@@ -23,7 +24,7 @@ class Play:
                 settings.LIGHT_BLUE_HOVER, settings.DARK_BLUE, self.resume)
         shop = Button("SHOP", (settings.WIDTH/4, settings.HEIGHT/8), 75, 
                 (settings.WIDTH/2, settings.HEIGHT/2+settings.HEIGHT/4), settings.LIGHT_BLUE,  
-                settings.LIGHT_BLUE_HOVER, settings.DARK_BLUE, settings.GAME.main_menu.open_shop)
+                settings.LIGHT_BLUE_HOVER, settings.DARK_BLUE, self.open_shop)
         quit = Button("quit", (shop.rect.width, shop.rect.height), 75, 
                 (settings.WIDTH/2, shop.rect.centery+shop.rect.height*1.25), settings.LIGHT_BROWN, settings.LIGHT_BROWN_HOVER, 
                 settings.DARK_BROWN, settings.GAME.main_menu.return_main_menu)
@@ -41,6 +42,7 @@ class Play:
         self.enemy_spawner = EnemySpawner()
 
         self.paused = False     # pauses/resumes the run
+        self.in_shop = False    # opens/closes shop
 
         self.time = 0           # time spent in the run (in seconds)
 
@@ -118,6 +120,10 @@ class Play:
         else:
             if not pygame.mouse.get_visible(): # make sure mouse is visible
                 pygame.mouse.set_visible(True)
+            
+            if self.in_shop:
+                self.shop.update()
+                return
 
             self.pause_menu.update()
     
@@ -132,6 +138,16 @@ class Play:
     def resume(self) -> None:
         """resumes the game"""
         self.paused = False
+    
+    def open_shop(self) -> None:
+        """opens shop from pause menu"""
+        self.in_shop = True               # enter shop
+        self.shop = Shop(self.close_shop) # create new shop
+    
+    def close_shop(self) -> None:
+        """closes shop to return to pause menu"""
+        self.in_shop = False # exit shop
+        del self.shop        # delete current shop obejct
     
     def map_csv_list(self, name: str) -> list:
         """returns a list from a given csv file for the map\n
