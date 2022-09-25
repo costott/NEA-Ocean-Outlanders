@@ -24,6 +24,9 @@ DARK_YELLOW = "#575F00"
 YELLOW = "#CDDC21"
 DARK_GREEN = "#006A19"
 GREEN = "#00FF3C"
+GOLD = "#E1B333"
+SILVER = "#C8C6C4"
+BRONZE = "#EA8B2D"
 
 # BUTTONS
 BUTTON_GROW = 1.1               # multiplies the button size for maximum growth size
@@ -150,3 +153,17 @@ DMG_UNIT_PRICE = 4            # amount of gold per 1 damage
 DMG_PERCENT_INCREASE = 0.05   # % increase of current damage to next upgrade
 SPEED_UNIT_PRICE = 10         # amount of gold per 1 speed
 SPEED_PERCENT_INCREASE = 0.01 # % increase of current speed to next upgrade
+
+# LEADERBOARD
+LEADERBORD_HEADING_PADDING = 2              # gap between leaderboard heading and edge of heading/screen
+LEADERBOARD_HEADING_RADIUS = 10             # radius of leaderboard heading box
+LEADERBOARD_PLACE_WIDTH_SCALE = 2.7         # fraction of WIDTH of screen for full width of a leaderboard place
+LEADERBOARD_PLACE_HEIGHT_SCALE = 12         # fraction of HEIGHT of screen for full height of a leaderboard place
+LEADERBORD_PLACE_NUMBER_WIDTH_SCALE = 7.6   # fraction of width of main leaderboard place bar for the number bar
+LEADERBOARD_PLACE_VALUE_WIDTH_SCALE = 2.5   # fraction of width of main leaderboar place bar for the value bar
+LEADERBOARD_PLACE_RADIUS = 30               # radius of leadearboard place bar
+LEADERBOARD_PLACE_START_CENTERY_SCALE = 3.4 # fraction of HEIGHT of screen for center y position of 1st place
+LEADBOARD_PLACE_GAP_CENTERY_SCALE = 10.8    # fraction of HEIGHT of screen for y gaps between places
+LEADERBOARD_GROUP_GAP_SCALE = 20            # fraction of HEIGHT of screen for gap between top 3 and neigbour places
+WAVE_PLACE_CENTERX_SCALE = 4                # fraction of WIDTH of screen for center x position of wave places
+TIME_PLACE_CENTERX_SCALE = 1.4              # fraction of WIDTH of screen for center x position of time places

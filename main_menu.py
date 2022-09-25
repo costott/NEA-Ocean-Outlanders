@@ -1,7 +1,7 @@
-from cProfile import run
 import pygame
 
 from menu import HeadingMenu, Button
+from leaderboard import Leaderboard
 from end_menu import EndMenu
 from play import Play
 from shop import Shop
@@ -16,10 +16,13 @@ class MainMenu(HeadingMenu):
         shop_button = Button("shop", (settings.WIDTH/5, settings.HEIGHT/7), 100,
                              (settings.WIDTH/10+settings.WIDTH/35, settings.HEIGHT-settings.HEIGHT/4), 
                              settings.LIGHT_BLUE, settings.LIGHT_BLUE_HOVER,settings.DARK_BLUE, self.open_shop)
+        leaderboard_button = Button("leaderboard", (settings.WIDTH/2.75, settings.HEIGHT/7), 100,
+                             (settings.WIDTH/2, shop_button.rect.centery), 
+                             settings.LIGHT_BLUE, settings.LIGHT_BLUE_HOVER, settings.DARK_BLUE, self.open_leaderboard)
         exit_button = Button("exit", (settings.WIDTH/10, settings.HEIGHT/15), 25,
                              (settings.WIDTH/2, settings.HEIGHT-0.55*settings.HEIGHT/7.2),
                              settings.LIGHT_BROWN, settings.LIGHT_BROWN_HOVER, settings.DARK_BROWN, self.exit_game)
-        super().__init__([play_button, shop_button, exit_button], "MAIN MENU")
+        super().__init__([play_button, shop_button, leaderboard_button, exit_button], "MAIN MENU")
 
         self.state = "menu" # current state of the main menu
     
@@ -35,6 +38,8 @@ class MainMenu(HeadingMenu):
             self.died_menu.update()
         elif self.state == "shop":
             self.shop.update()
+        elif self.state == "leaderboard":
+            self.leaderboard.update()
         
         if self.state != "run":
             if not pygame.mouse.get_visible(): # reset mouse to be visible
@@ -69,12 +74,17 @@ class MainMenu(HeadingMenu):
     
     def open_shop(self) -> None:
         """opens the shop"""
-        self.shop = Shop(self.leave_shop) # create new shop
+        self.shop = Shop(self.leave_menu) # create new shop
         self.state = "shop"               # menu's in the shop state
     
-    def leave_shop(self) -> None:
-        """returns to main menu from shop"""
+    def leave_menu(self) -> None:
+        """returns to main menu from other menu"""
         self.state = "menu"
+    
+    def open_leaderboard(self) -> None:
+        """opens the leaderboard"""
+        self.leaderboard = Leaderboard(self.leave_menu) # create new leaderboard
+        self.state = "leaderboard"
 
     def exit_game(self) -> None:
         """calls the game's exit game method"""

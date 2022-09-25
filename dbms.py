@@ -4,6 +4,7 @@ import os
 
 from player_stats import PlayerStats
 import settings
+import tools
 
 class DBMS:
     """database management system"""
@@ -96,5 +97,72 @@ class DBMS:
                                 player_stats.chaining, player_stats.username))
         self.connect.commit()
         self.close_connection()
+    
+    def get_top_3_wave(self) -> list[tuple[str, int]]:
+        """returns the usernames and top waves of the top 3 players"""
+        self.open_connection()
+        self.cursor.execute("SELECT username, high_wave FROM User ORDER BY high_wave DESC LIMIT 3")
+        players = self.cursor.fetchall()
+        self.close_connection()
+        return players
+    
+    def get_neighbour_wave(self) -> list[list[int, str, int]]:
+        """returns the places, usernames and top waves of the current user and their neighbours"""
+        # get all the players and their highest wave
+        self.open_connection()
+        self.cursor.execute("SELECT username, high_wave FROM User ORDER BY high_wave DESC")
+        all_players = self.cursor.fetchall()
+        self.close_connection()
+
+        # linear search to find player
+        player_i = None
+        for i, player in enumerate(all_players): 
+            if player[0] == settings.GAME.player_stats.username: 
+                player_i = i
+                break
+        
+        # get the players
+        above_player, current_player, below_player = None, None, None
+        if player_i > 0:                  # player isn't the top of the leaderboard (index 0)
+            above_player = [player_i] + list(all_players[player_i-1])
+        current_player = [player_i+1] + list(all_players[player_i])
+        if player_i < len(all_players)-1: # player isn't the bottom of the leaderboard
+            below_player = [player_i+2] + list(all_players[player_i+1])
+        
+        return [above_player, current_player, below_player]
+    
+    def get_top_3_time(self) -> list[tuple[str, str]]:
+        """returns the usernames and top times of the top 3 players"""
+        self.open_connection()
+        self.cursor.execute("SELECT username, high_time FROM User ORDER BY high_time DESC LIMIT 3")
+        players = self.cursor.fetchall()
+        self.close_connection()
+        # convert player's time to h:m:s
+        return [(player[0], tools.hms(player[1])) for player in players]
+
+    def get_neighbour_time(self) -> list[list[int, str, str]]:
+        """returns the places, usernames and top times of the current user and their neighbours"""
+        # get all the players and their highest wave
+        self.open_connection()
+        self.cursor.execute("SELECT username, high_time FROM User ORDER BY high_time DESC")
+        all_players = self.cursor.fetchall()
+        self.close_connection()
+
+        # linear search to find player
+        player_i = None
+        for i, player in enumerate(all_players): 
+            if player[0] == settings.GAME.player_stats.username: 
+                player_i = i
+                break
+        
+        # get the players
+        above_player, current_player, below_player = None, None, None
+        if player_i > 0:                  # player isn't the top of the leaderboard (index 0)
+            above_player = [player_i, all_players[player_i-1][0], tools.hms(all_players[player_i-1][1])]
+        current_player = [player_i+1, all_players[player_i][0], tools.hms(all_players[player_i][1])]
+        if player_i < len(all_players)-1: # player isn't the bottom of the leaderboard
+            below_player = [player_i+2, all_players[player_i+1][0], tools.hms(all_players[player_i+1][1])]
+        
+        return [above_player, current_player, below_player]   
 
 dbms = DBMS()
