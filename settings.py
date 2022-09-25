@@ -167,3 +167,7 @@ LEADBOARD_PLACE_GAP_CENTERY_SCALE = 10.8    # fraction of HEIGHT of screen for y
 LEADERBOARD_GROUP_GAP_SCALE = 20            # fraction of HEIGHT of screen for gap between top 3 and neigbour places
 WAVE_PLACE_CENTERX_SCALE = 4                # fraction of WIDTH of screen for center x position of wave places
 TIME_PLACE_CENTERX_SCALE = 1.4              # fraction of WIDTH of screen for center x position of time places
+
+# CONTROLS SCREEN
+CONTROLS_IMAGE_LOCATION = "assets/controls.png" # location of controls image
+CONTROLS_IMAGE_SCALE = 0.65                     # multiplier to scale controls image
