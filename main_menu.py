@@ -11,6 +11,7 @@ import settings
 
 class MainMenu(HeadingMenu):
     def __init__(self):
+        # make buttons
         play_button = Button("PLAY", (settings.WIDTH/2, settings.HEIGHT/3.5), 225, 
                              (settings.WIDTH/2,settings.HEIGHT/2-50), settings.LIGHT_BLUE, settings.LIGHT_BLUE_HOVER, 
                              settings.DARK_BLUE, self.start_run)
@@ -28,12 +29,26 @@ class MainMenu(HeadingMenu):
                              settings.LIGHT_BROWN, settings.LIGHT_BROWN_HOVER, settings.DARK_BROWN, self.exit_game)
         super().__init__([play_button, shop_button, leaderboard_button, controls_button, exit_button], "MAIN MENU")
 
+        # make images on menu
+        self.boat_image_left = pygame.image.load(settings.MAIN_MENU_BOAT_IMAGE1_LOCATION).convert_alpha()
+        self.boat_image_left = pygame.transform.rotozoom(self.boat_image_left, 0, settings.MAIN_MENU_BOAT_IMAGE_SCALE)
+        self.boat_image_right = pygame.image.load(settings.MAIN_MENU_BOAT_IMAGE2_LOCATION).convert_alpha()
+        self.boat_image_right = pygame.transform.rotozoom(self.boat_image_right, 0, settings.MAIN_MENU_BOAT_IMAGE_SCALE)
+        # rect for image on the left
+        self.boat_left_rect = self.boat_image_left.get_rect(center=(settings.WIDTH/9,settings.HEIGHT/2.7))
+        # rect for image on the right
+        self.boat_right_rect = self.boat_image_right.get_rect(center=(settings.WIDTH-settings.WIDTH/16,
+                                                                self.boat_left_rect.centery))
+
         self.state = "menu" # current state of the main menu
     
     def update(self) -> None:
         """called once per frame"""
         if self.state == "menu":
             super().update() # update menu
+
+            self.screen.blit(self.boat_image_left, self.boat_left_rect)
+            self.screen.blit(self.boat_image_right, self.boat_right_rect)
         elif self.state == "run":
             self.run.update()
         elif self.state == "complete run":
@@ -61,8 +76,10 @@ class MainMenu(HeadingMenu):
         settings.GAME.player_stats.gold += self.run.gold # add run gold
         
         # update highscores
-        settings.GAME.player_stats.highscore_time = max(settings.GAME.player_stats.highscore_time, self.run.time)
-        settings.GAME.player_stats.highscore_wave = max(settings.GAME.player_stats.highscore_wave, self.run.enemy_spawner.current_wave)
+        settings.GAME.player_stats.highscore_time = max(settings.GAME.player_stats.highscore_time, 
+                                                        self.run.time)
+        settings.GAME.player_stats.highscore_wave = max(settings.GAME.player_stats.highscore_wave, 
+                                                        self.run.enemy_spawner.current_wave)
     
         dbms.save_progress()
         self.complete_menu = EndMenu("RUN COMPLETE")

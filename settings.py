@@ -59,6 +59,11 @@ TEXT_BOX_FONT_SIZE = 30        # font size of text box heading
 TEXT_BOX_TEXT_OFFSET = 5       # y offset of text box heading
 TEXT_BOX_INPUT_OFFSET = 5      # x offset of text in text box
 
+# MAIN MENU
+MAIN_MENU_BOAT_IMAGE1_LOCATION = "assets/boat_scene.png"  # image on the left of the main menu
+MAIN_MENU_BOAT_IMAGE2_LOCATION = "assets/boat_scene2.png" # image on the right of the main menu
+MAIN_MENU_BOAT_IMAGE_SCALE = 0.6                          # scale of images above
+
 # END MENU
 END_MENU_HIGHSCORE_GAP = 200    # gap between stat and highscore
 END_MENU_BAR_GAP = 20           # gap between bars
