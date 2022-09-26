@@ -1,6 +1,7 @@
 import pygame
 import math
 
+from effects import ExplosionEffect
 import settings
 import tools
 
@@ -49,3 +50,32 @@ class Cannonball(pygame.sprite.Sprite):
                 boat.hit(self.damage) # damage boat
                 self.effect()
                 self.kill()
+
+class ExplosiveCannonball(Cannonball):
+    """cannonball that creates an explosion when it collides"""
+    def __init__(self, start_pos: tuple[float, float], angle: float, damage: float, shooter: str):
+        super().__init__(start_pos, angle, damage, shooter)
+
+        self.image = pygame.image.load("assets/red_cannonball.png").convert_alpha() # explosive cannonball image
+    
+    def effect(self) -> None:
+        """explosive cannonball effect"""
+        ExplosionEffect([settings.current_run.screen_sprites], self.pos)
+
+        for boat in settings.current_run.boat_sprites:
+            if boat == settings.current_run.player_boat and self.shooter == "player":
+                continue # don't let the player explode itself
+            elif boat != settings.current_run.player_boat and self.shooter == "enemy":
+                continue # don't let enemies explode each other
+
+            distance = self.pos.distance_to(boat.pos)                    # boat's distance to middle of explosion
+            if distance > settings.EXPLOSIVE_CANNONBALL_RADIUS: continue # out of range
+
+            distance_fraction = distance/settings.EXPLOSIVE_CANNONBALL_RADIUS # fraction of total distance
+            # fraction of explosion damage relative to distance fraction
+            damage_multiplier = (settings.EXPLOSIVE_CANNONBALL_FALLOFF-1)*(distance_fraction**2) + 1
+
+            # damage to deal
+            damage = self.damage*settings.EXPLOSIVE_CANNONBALL_DAMAGE_MULTIPLIER * damage_multiplier
+
+            boat.hit(damage)

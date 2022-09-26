@@ -15,6 +15,11 @@ def scaled_rect(rect: pygame.Rect, width_scale: float, height_scale: float) -> p
     scaled.center = rect.center
     return scaled
 
+def scaled_image(path: str, scale: float) -> pygame.Surface:
+    """returns a scaled image of the provided image"""
+    image = pygame.image.load(path).convert_alpha()   # get image
+    return pygame.transform.rotozoom(image, 0, scale) # scale + return image
+
 def hms(time: float) -> str:
     """converts time into hours:minutes:seconds"""
     time = int(time)

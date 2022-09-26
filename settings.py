@@ -118,6 +118,15 @@ ENEMY_SPD_ADD =  0.1         # how much enemy speed increases per wave
 # CANNONBALL
 CANNONBALL_SPEED = 100 # absolute speed of cannonball in pixels/second
 
+# EXPLOSIVE CANNONBALL
+EXPLOSIVE_CANNONBALL_RADIUS = 200             # radius of range where boats will take damage  
+EXPLOSIVE_CANNONBALL_DAMAGE_MULTIPLIER = 0.7  # multiplies current cannonball damage for explosion damage at centre
+EXPLOSIVE_CANNONBALL_FALLOFF = 0.25           # multiplier of total damage at the edge of explosion
+
+# EXPLOSION EFFECT
+EXPLOSION_ANIMATION_SWITCH_TIME = 0.07 # time between explosion animatin frames
+EXPLOSION_SCALE = 1.5                  # scale of original image
+
 # HUD
 BAR_RADIUS = 7                  # radius of rects on HUD
 CROSSHAIR_SCALE = 0.7           # scale up the crosshair image
