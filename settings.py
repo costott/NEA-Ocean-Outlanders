@@ -1,4 +1,7 @@
 # screen dimensions, set by main.py
+from tkinter import E
+
+
 WIDTH = 0
 HEIGHT = 0
 
@@ -135,6 +138,16 @@ ENEMY_HEATH_BAR_HEIGHT = 10     # pixel height of enemy health bar
 ENEMY_HEALTH_BAR_OFFSET = 5     # pixels above enemy
 HUD_INFO_FONT_SIZE = 40         # size of font for text on HUD
 HUD_PADDING = 15                # pixel padding between text on HUD
+
+# CANNONBALL HUD
+CANNONBALL_HUD_WIDTH_SCALE = 20           # fraction of WIDTH of screen for width of main box 
+CANNONBALL_HUD_IMAGE_SCALE = 0.5          # scales the main image inside the HUD image
+CANNONBALL_HUD_BORDER_WIDTH = 5           # width of border of boxes
+CANNONBALL_HUD_RADIUS = 10                # radius of boxes
+CANNONBALL_HUD_LOCKED_ALPHA = 100         # alpha of HUD images when not unlocked
+CANNONBALL_HUD_CENTERY_SCALE = 0.93       # multiple of HEIGHT of screen for main box centre y
+CANNONBALL_HUD_START_CENTERX_SCALE = 0.83 # multiple of WIDTH of screen for fist main box centre x
+CANNONBALL_HUD_GAP_SCALE = 0.01           # multiple of WIDTH of screen for gap between HUD images
 
 # MAP
 MAIN_MAP_IMAGE = "map/map.png"  # location of the main map image

@@ -17,6 +17,14 @@ class HUD:
         # text prompt on HUD when player in range of a port
         self.port_text = self.info_font.render("[E] FINISH RUN", True, settings.DARK_BROWN)
         self.port_rect = self.port_text.get_rect()
+
+        self.default_cannonball = CannonballHud(1, "assets/cannonball_hud.png", (
+            settings.WIDTH*settings.CANNONBALL_HUD_START_CENTERX_SCALE, 
+            settings.HEIGHT*settings.CANNONBALL_HUD_CENTERY_SCALE))
+        self.explosive_cannonball = CannonballHud(2, "assets/exploded_cannonball.png", (
+            self.default_cannonball.center[0]+self.default_cannonball.main_rect.width+(
+                settings.WIDTH*settings.CANNONBALL_HUD_GAP_SCALE), 
+            self.default_cannonball.center[1]))
     
     def draw(self) -> None:
         """draw the HUD"""
@@ -101,6 +109,9 @@ class HUD:
         """draws the HUD elements for the cannon"""
         if pygame.mouse.get_visible():      # mouse is visible
             pygame.mouse.set_visible(False) # make mouse invisible as crosshair will replace it
+        
+        self.default_cannonball.draw(True)
+        self.explosive_cannonball.draw(settings.GAME.player_stats.explosive)
 
         self.crosshair_rect.center = pygame.mouse.get_pos()   # position crosshair at mouse
         self.screen.blit(self.crosshair, self.crosshair_rect) # draw crosshair to screen
@@ -208,3 +219,57 @@ class HUD:
                 self.port_rect.center = port.centre+settings.current_run.camera.camera_move
                 self.port_rect.centery -= 40
                 self.screen.blit(self.port_text, self.port_rect)
+
+class CannonballHud:
+    """cannonball box to be displayed to the HUD"""
+    def __init__(self, number: int, image_path: str, centre: tuple[float, float]):
+        self.screen = pygame.display.get_surface() # game screen for easy access
+
+        self.center = centre # centre of main image on screen
+
+        # main box for the image
+        self.main_rect = pygame.Rect(0,0,settings.WIDTH/settings.CANNONBALL_HUD_WIDTH_SCALE,
+                                     settings.WIDTH/settings.CANNONBALL_HUD_WIDTH_SCALE)
+
+        self.mini_rect = tools.scaled_rect(self.main_rect, 0.4, 0.4) # make smaller box for number
+        self.mini_rect.topright = self.main_rect.topright            # put smaller box in top right
+
+        num_font = pygame.font.Font(None, 20)                                        # font for the number
+        self.number_text = num_font.render(str(number), True, "white")               # make the number text
+        self.number_rect = self.number_text.get_rect(center = self.mini_rect.center) # get rect for positioning
+
+        self.image = tools.scaled_image(image_path, settings.CANNONBALL_HUD_IMAGE_SCALE) # image of cannonball
+        # position image in centre of empty space on main box
+        self.image_rect = self.image.get_rect(center=(self.main_rect.centerx,(
+                                                      self.main_rect.bottom+self.mini_rect.bottom)/2))
+
+        self.make_full_image()
+    
+    def make_full_image(self) -> None:
+        """create full cannonball hud image"""
+        self.main_image = pygame.Surface(self.main_rect.size, pygame.SRCALPHA).convert_alpha()
+
+        # draw the boxes and their borders
+        pygame.draw.rect(self.main_image, settings.LIGHT_BROWN, self.main_rect, 
+                         border_radius=settings.CANNONBALL_HUD_RADIUS)
+        pygame.draw.rect(self.main_image, settings.DARK_BROWN, self.main_rect, 
+                         width=settings.CANNONBALL_HUD_BORDER_WIDTH, border_radius=settings.CANNONBALL_HUD_RADIUS)
+        pygame.draw.rect(self.main_image, settings.LIGHT_BROWN, self.mini_rect, 
+                         border_radius=settings.CANNONBALL_HUD_RADIUS)
+        pygame.draw.rect(self.main_image, settings.DARK_BROWN, self.mini_rect, 
+                         width=settings.CANNONBALL_HUD_BORDER_WIDTH, border_radius=settings.CANNONBALL_HUD_RADIUS)
+
+        self.main_image.blit(self.number_text, self.number_rect) # draw text
+        self.main_image.blit(self.image, self.image_rect)        # draw image
+
+        self.main_image_rect = self.main_image.get_rect()
+
+    def draw(self, unlocked: bool):
+        """draws the main HUD image to the screen"""
+        if not unlocked: # change the alpha of the image whether it's unlocked or not
+            self.main_image.set_alpha(settings.CANNONBALL_HUD_LOCKED_ALPHA)
+        else:
+            self.main_image.set_alpha(255)
+        
+        self.main_image_rect.center = self.center
+        self.screen.blit(self.main_image, self.main_image_rect) # draw image
