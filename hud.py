@@ -1,5 +1,6 @@
 import pygame
 
+from cannonball import Cannonball, ExplosiveCannonball
 import settings
 import tools
 
@@ -20,11 +21,11 @@ class HUD:
 
         self.default_cannonball = CannonballHud(1, "assets/cannonball_hud.png", (
             settings.WIDTH*settings.CANNONBALL_HUD_START_CENTERX_SCALE, 
-            settings.HEIGHT*settings.CANNONBALL_HUD_CENTERY_SCALE))
+            settings.HEIGHT*settings.CANNONBALL_HUD_CENTERY_SCALE), Cannonball)
         self.explosive_cannonball = CannonballHud(2, "assets/exploded_cannonball.png", (
             self.default_cannonball.center[0]+self.default_cannonball.main_rect.width+(
                 settings.WIDTH*settings.CANNONBALL_HUD_GAP_SCALE), 
-            self.default_cannonball.center[1]))
+            self.default_cannonball.center[1]), ExplosiveCannonball)
     
     def draw(self) -> None:
         """draw the HUD"""
@@ -222,10 +223,11 @@ class HUD:
 
 class CannonballHud:
     """cannonball box to be displayed to the HUD"""
-    def __init__(self, number: int, image_path: str, centre: tuple[float, float]):
+    def __init__(self, number: int, image_path: str, centre: tuple[float, float], type: Cannonball):
         self.screen = pygame.display.get_surface() # game screen for easy access
 
         self.center = centre # centre of main image on screen
+        self.type = type     # type of cannonball it's representing
 
         # main box for the image
         self.main_rect = pygame.Rect(0,0,settings.WIDTH/settings.CANNONBALL_HUD_WIDTH_SCALE,
@@ -242,17 +244,21 @@ class CannonballHud:
         # position image in centre of empty space on main box
         self.image_rect = self.image.get_rect(center=(self.main_rect.centerx,(
                                                       self.main_rect.bottom+self.mini_rect.bottom)/2))
-
-        self.make_full_image()
     
     def make_full_image(self) -> None:
         """create full cannonball hud image"""
         self.main_image = pygame.Surface(self.main_rect.size, pygame.SRCALPHA).convert_alpha()
 
-        # draw the boxes and their borders
+        # change main border colour
+        if settings.current_run.player_boat.cannons[0].active_cannonball == self.type:
+            border_colour = settings.GREEN
+        else:
+            border_colour = settings.DARK_BROWN
+        
+        # draw boxes_border
         pygame.draw.rect(self.main_image, settings.LIGHT_BROWN, self.main_rect, 
                          border_radius=settings.CANNONBALL_HUD_RADIUS)
-        pygame.draw.rect(self.main_image, settings.DARK_BROWN, self.main_rect, 
+        pygame.draw.rect(self.main_image, border_colour, self.main_rect, 
                          width=settings.CANNONBALL_HUD_BORDER_WIDTH, border_radius=settings.CANNONBALL_HUD_RADIUS)
         pygame.draw.rect(self.main_image, settings.LIGHT_BROWN, self.mini_rect, 
                          border_radius=settings.CANNONBALL_HUD_RADIUS)
@@ -266,6 +272,8 @@ class CannonballHud:
 
     def draw(self, unlocked: bool):
         """draws the main HUD image to the screen"""
+        self.make_full_image()
+
         if not unlocked: # change the alpha of the image whether it's unlocked or not
             self.main_image.set_alpha(settings.CANNONBALL_HUD_LOCKED_ALPHA)
         else:
