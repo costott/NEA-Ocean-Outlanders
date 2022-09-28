@@ -13,14 +13,14 @@ class Game:
         pygame.init()               # initialise pygame for use
         pygame.mixer.init()         # initialises pygame's sound system for use
         self.screen = pygame.display.set_mode(flags=pygame.FULLSCREEN) # create the game screen
-        settings.WIDTH, settings.HEIGHT = self.screen.get_size()
+        settings.WIDTH, settings.HEIGHT = self.screen.get_size()       # put screen size in settings
         self.clock = pygame.time.Clock() # creates the clock object
         self.running = True         # keeps the main game loop running
 
         # holds the player stats object once signed up/logged in (default for testing)
         self.player_stats = PlayerStats("test", 1234, settings.PB_BASE_HP, settings.PB_BASE_DAMAGE, settings.PB_BASE_SPEED, 0, 0, 0, 0)
 
-        self.state = "main menu"    # current state of the game (start or main menu)
+        self.state = "start"    # current state of the game (start or main menu)
         self.start_menu = StartMenu()    # holds the start menu
         self.main_menu = MainMenu() # holds the main menu
         
