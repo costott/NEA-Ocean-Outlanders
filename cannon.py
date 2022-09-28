@@ -1,7 +1,7 @@
 import pygame
 import math
 
-from cannonball import Cannonball
+from cannonball import Cannonball, ExplosiveCannonball
 from boat_feature import BoatFeature
 import settings
 import tools
@@ -27,6 +27,8 @@ class Cannon(BoatFeature):
         self.damage = damage # amount of damage a shot cannonball does
 
         self.shooter = shooter # who is using the cannon (player/enemy)
+
+        self.active_cannonball = Cannonball # current cannonball the cannon is shooting
     
     def update(self) -> None:
         """called once per frame"""
@@ -84,7 +86,7 @@ class Cannon(BoatFeature):
         """shoots cannon"""
         if not self.holding_left_mouse and self.fire_timer == 0:
             cannon_pos = self.pos
-            Cannonball(cannon_pos, self.boat.angle+self.relative_angle, self.damage, self.shooter) # create cannonball
+            self.active_cannonball(cannon_pos, self.boat.angle+self.relative_angle, self.damage, self.shooter) # create cannonball
 
             self.fire_timer = self.fire_rate # start fire timer
         

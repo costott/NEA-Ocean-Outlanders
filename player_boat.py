@@ -1,5 +1,6 @@
 import pygame
 
+from cannonball import Cannonball, ExplosiveCannonball
 from boat_feature import BoatFeature
 from boat import Boat, BoatImage
 from cannon import Cannon
@@ -106,6 +107,16 @@ class PlayerBoat(Boat):
     
     def control_cannon(self) -> None:
         """control active cannnon"""
+        # CHOOSING ACTIVE CANNONBALL
+        keys = pygame.key.get_pressed()
+        # select default cannonball
+        if keys[pygame.K_1]: active = Cannonball
+        # select explosive cannonball if unlocked
+        elif keys[pygame.K_2] and settings.GAME.player_stats.explosive: active = ExplosiveCannonball
+        else: active = self.cannons[0].active_cannonball # don't change if no keys to change are pressed
+        # set all cannons to active cannonball
+        for cannon in self.cannons: cannon.active_cannonball = active
+
         self.active_cannon.aim_cannon()             # aim active cannon
         for cannon in self.cannons: cannon.update() # update all cannons
         self.make_main_boat_image()                 # remake boat image
