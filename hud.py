@@ -1,6 +1,6 @@
 import pygame
 
-from cannonball import Cannonball, ExplosiveCannonball
+from cannonball import Cannonball, ExplosiveCannonball, ChainingCannonball
 import settings
 import tools
 
@@ -26,6 +26,10 @@ class HUD:
             self.default_cannonball.center[0]+self.default_cannonball.main_rect.width+(
                 settings.WIDTH*settings.CANNONBALL_HUD_GAP_SCALE), 
             self.default_cannonball.center[1]), ExplosiveCannonball)
+        self.chaining_cannonball = CannonballHud(3, "assets/lightning_cannonball.png", (
+            self.explosive_cannonball.center[0]+self.default_cannonball.main_rect.width+(
+                settings.WIDTH*settings.CANNONBALL_HUD_GAP_SCALE), 
+            self.explosive_cannonball.center[1]), ChainingCannonball)
     
     def draw(self) -> None:
         """draw the HUD"""
@@ -113,6 +117,7 @@ class HUD:
         
         self.default_cannonball.draw(True)
         self.explosive_cannonball.draw(settings.GAME.player_stats.explosive)
+        self.chaining_cannonball.draw(settings.GAME.player_stats.chaining)
 
         self.crosshair_rect.center = pygame.mouse.get_pos()   # position crosshair at mouse
         self.screen.blit(self.crosshair, self.crosshair_rect) # draw crosshair to screen

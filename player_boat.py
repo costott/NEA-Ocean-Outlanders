@@ -1,6 +1,6 @@
 import pygame
 
-from cannonball import Cannonball, ExplosiveCannonball
+from cannonball import Cannonball, ExplosiveCannonball, ChainingCannonball
 from boat_feature import BoatFeature
 from boat import Boat, BoatImage
 from cannon import Cannon
@@ -113,6 +113,8 @@ class PlayerBoat(Boat):
         if keys[pygame.K_1]: active = Cannonball
         # select explosive cannonball if unlocked
         elif keys[pygame.K_2] and settings.GAME.player_stats.explosive: active = ExplosiveCannonball
+        # select chaining cannonball if unlocked
+        elif keys[pygame.K_3] and settings.GAME.player_stats.chaining: active = ChainingCannonball
         else: active = self.cannons[0].active_cannonball # don't change if no keys to change are pressed
         # set all cannons to active cannonball
         for cannon in self.cannons: cannon.active_cannonball = active
