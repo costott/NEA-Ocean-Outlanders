@@ -60,8 +60,12 @@ class ShopButton(Button):
 
 class SingleBuyShopButton(ShopButton):
     """shop button that can only be bought once"""
-    def __init__(self, center_pos: tuple[float, float], price: int, action, check_bought):
+    def __init__(self, center_pos: tuple[float, float], image: pygame.Surface, price: int, action, check_bought):
         super().__init__(center_pos, price, action)
+
+        self.image = image
+        self.image_rect = self.image.get_rect(center=((self.back_rect.right+self.price_rect.right)/2, 
+                                              self.back_rect.centery))
 
         self.check_bought = check_bought # method which checks if the upgrade's already bought
     
@@ -69,11 +73,16 @@ class SingleBuyShopButton(ShopButton):
         """called once per frame"""
         if not self.check_bought():
             super().update() # normal shop button functionality if not bought yet
+            self.image_rect = self.image.get_rect(center=((self.back_rect.right+self.price_rect.right)/2, 
+                                              self.back_rect.centery))
+            self.screen.blit(self.image, self.image_rect)
             return           # next code is for when the upgrade's bought
         
         if self.size.x > self.unhover_size.x: # size hasn't decreased back to unhover
             self.mouse_interact()             # decrease size when mouse leaves button
             self.make_rects()                 # remake rects+price as size may change
+            self.image_rect = self.image.get_rect(center=((self.back_rect.right+self.price_rect.right)/2, 
+                                              self.back_rect.centery))
             self.change_price(self.price)
 
         # draw shop button to screen differently if already bought
@@ -86,6 +95,7 @@ class SingleBuyShopButton(ShopButton):
         pygame.draw.rect(self.screen, settings.LIGHT_BROWN_HOVER, self.price_rect, 
                          border_radius=settings.SHOP_BUTTON_BORDER_RADIUS)
         self.screen.blit(self.price_text, self.price_text_rect)
+        self.screen.blit(self.image, self.image_rect)
 
 class StatShopButton(ShopButton):
     """shop button for stats"""
@@ -154,10 +164,14 @@ class Shop(HeadingMenu):
         super().__init__([back_button], "SHOP")
 
         # upgrade buttons
-        explosive_button = SingleBuyShopButton((settings.WIDTH/6, settings.HEIGHT/3.6), settings.EXPLOSIVE_PRICE, 
-                            settings.GAME.player_stats.buy_explosive, lambda: settings.GAME.player_stats.explosive)
-        chaining_button = SingleBuyShopButton((settings.WIDTH/1.2, settings.HEIGHT/3.6), settings.CHAINING_PRICE, 
-                            settings.GAME.player_stats.buy_chaining, lambda: settings.GAME.player_stats.chaining)
+        explosive_image = tools.scaled_image("assets/exploded_cannonball.png", settings.SHOP_CANNONBALL_SCALE)
+        chaining_image = tools.scaled_image("assets/lightning_cannonball.png", settings.SHOP_CANNONBALL_SCALE)
+        explosive_button = SingleBuyShopButton((settings.WIDTH/6, settings.HEIGHT/3.6), explosive_image, 
+                            settings.EXPLOSIVE_PRICE, settings.GAME.player_stats.buy_explosive, 
+                            lambda: settings.GAME.player_stats.explosive)
+        chaining_button = SingleBuyShopButton((settings.WIDTH/1.2, settings.HEIGHT/3.6), chaining_image, 
+                            settings.CHAINING_PRICE, settings.GAME.player_stats.buy_chaining, 
+                            lambda: settings.GAME.player_stats.chaining)
         hp_button = StatShopButton((settings.WIDTH/6, settings.HEIGHT/1.44), settings.GAME.player_stats.hp_upgrade, 
                             settings.GAME.player_stats.buy_hp, settings.RED, settings.DARK_RED)
         dmg_button  = StatShopButton((settings.WIDTH/2, settings.HEIGHT/1.44), settings.GAME.player_stats.dmg_upgrade,

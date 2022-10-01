@@ -179,6 +179,7 @@ SHOP_BUTTON_HEIGHT_SCALE = 4.25 # fraction of HEIGHT of screen
 SHOP_BUTTON_BORDER_WIDTH = 10   # width of border around shop buttons
 SHOP_BUTTON_BORDER_RADIUS = 30  # radius of shop buttons
 SHOP_PRICE_WIDTH_SCALE = 2.5    # fraction of width of shop button
+SHOP_CANNONBALL_SCALE = 2       # scales up cannonball images
 
 # UPGRADES
 EXPLOSIVE_PRICE = 100         # price of explosive cannonball
