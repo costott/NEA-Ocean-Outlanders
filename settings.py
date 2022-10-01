@@ -130,6 +130,15 @@ EXPLOSIVE_CANNONBALL_FALLOFF = 0.25           # multiplier of total damage at th
 EXPLOSION_ANIMATION_SWITCH_TIME = 0.07 # time between explosion animatin frames
 EXPLOSION_SCALE = 1.5                  # scale of original image
 
+# CHAINING CANNONBALL
+CHAINING_CANNONBALL_RADIUS = 350            # start radius for first chain
+CHAINING_CANNONBALL_DECAY = 0.8             # multiplier for radius of next chain
+CHAINING_CANNONBALL_DAMAGE_MULTIPLIER = 0.7 # multiplies current cannonball damage for chain damage
+
+# CHAINING EFFECT
+CHAIN_SPEED = 400 # speed of chains (pixels per second)
+CHAIN_WIDTH = 5   # width of chain lightning line
+
 # HUD
 BAR_RADIUS = 7                  # radius of rects on HUD
 CROSSHAIR_SCALE = 0.7           # scale up the crosshair image

@@ -1,7 +1,7 @@
 import pygame
 import math
 
-from cannonball import Cannonball, ExplosiveCannonball
+from cannonball import Cannonball, ExplosiveCannonball, ChainingCannonball
 from boat_feature import BoatFeature
 import settings
 import tools

@@ -1,7 +1,8 @@
 import pygame
+import random
 import math
 
-from effects import ExplosionEffect
+from effects import ExplosionEffect, ChainEffect
 import settings
 import tools
 
@@ -79,3 +80,38 @@ class ExplosiveCannonball(Cannonball):
             damage = self.damage*settings.EXPLOSIVE_CANNONBALL_DAMAGE_MULTIPLIER * damage_multiplier
 
             boat.hit(damage)
+
+class ChainingCannonball(Cannonball):
+    """cannonball that chains to enemy boats when it collides"""
+    def __init__(self, start_pos: tuple[float, float], angle: float, damage: float, shooter: str):
+        super().__init__(start_pos, angle, damage, shooter)
+
+        self.image = pygame.image.load("assets/white_cannonball.png").convert_alpha() # chaining cannonball image
+    
+    def effect(self) -> None:
+        """effect when the chaining cannonball collides"""
+        chains = self.chain(self.pos, settings.CHAINING_CANNONBALL_RADIUS, [])
+        ChainEffect([settings.current_run.screen_sprites], 
+                    self.damage*settings.CHAINING_CANNONBALL_DAMAGE_MULTIPLIER , self.pos, chains)
+    
+    def chain(self, start_pos: pygame.math.Vector2, radius: float, chains: list) -> list:
+        """recurisvely chains to a random boat in the given range
+        returns the positions in order of where to chain"""
+        boats = [] # list of boats in range
+        for boat in settings.current_run.boat_sprites: # get boats in range
+            if boat == settings.current_run.player_boat and self.shooter == "player":
+                continue # don't let the player chain to itself
+            elif boat != settings.current_run.player_boat and self.shooter == "enemy":
+                continue # don't let enemies chain each other
+                
+            if boat.pos == start_pos: continue # don't let boat chain to itself
+                
+            # boat is able to be chained if in range
+            if start_pos.distance_to(boat.pos) <= radius: boats.append(boat)
+        
+        if len(boats) > 0: # chain if there's available boats
+            chain_boat = random.choice(boats) # choose boat to chain to
+            chains.append(chain_boat)
+            chains = self.chain(chain_boat.pos, radius*settings.CHAINING_CANNONBALL_DECAY, chains) # chain to next boat
+        
+        return chains
