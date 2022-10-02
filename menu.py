@@ -1,6 +1,7 @@
 import pygame
 import math
 
+from music_manager import music_manager
 import settings
 import tools
 
@@ -95,6 +96,8 @@ class Menu:
     
     def update(self) -> None:
         """called once per frame"""
+        music_manager.menu_music()
+
         self.screen.blit(self.background, (0,self.bg_scroll))
 
         for button in self.buttons:
