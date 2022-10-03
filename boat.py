@@ -33,6 +33,8 @@ class Boat(pygame.sprite.Sprite): # boat is built upon pygame's sprite class
 
         self.collide_center = pygame.math.Vector2(99999, 99999)
 
+        self.hit_sound = pygame.mixer.Sound("sound/boat_hit.wav") # sound when a boat gets hit
+
     def make_main_boat_image(self) -> None:
         """compile all boat images into one image"""
         # make empty container for images (main_sail set by specific boat)

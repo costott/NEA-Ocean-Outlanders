@@ -121,6 +121,7 @@ class EnemyBoat(Boat):
     def hit(self, damage: float) -> None:
         """enemy boat takes damage"""
         self.hp -= damage
+        self.hit_sound.play()
 
         if self.hp <= 0:
             self.die()

@@ -20,7 +20,7 @@ class Game:
         # holds the player stats object once signed up/logged in (default for testing)
         self.player_stats = PlayerStats("test", 1234, settings.PB_BASE_HP, settings.PB_BASE_DAMAGE, settings.PB_BASE_SPEED, 0, 0, 0, 0)
 
-        self.state = "start"    # current state of the game (start or main menu)
+        self.state = "main menu"    # current state of the game (start or main menu)
         self.start_menu = StartMenu()    # holds the start menu
         self.main_menu = MainMenu() # holds the main menu
         

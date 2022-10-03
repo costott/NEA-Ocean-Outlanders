@@ -58,10 +58,14 @@ class ExplosiveCannonball(Cannonball):
         super().__init__(start_pos, angle, damage, shooter)
 
         self.image = pygame.image.load("assets/red_cannonball.png").convert_alpha() # explosive cannonball image
+
+        self.explosion_sound = pygame.mixer.Sound("sound/explosion.mp3") # sound when explosion happens
+        self.explosion_sound.set_volume(0.7)
     
     def effect(self) -> None:
         """explosive cannonball effect"""
         ExplosionEffect([settings.current_run.screen_sprites], self.pos)
+        self.explosion_sound.play()
 
         for boat in settings.current_run.boat_sprites:
             if boat == settings.current_run.player_boat and self.shooter == "player":

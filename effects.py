@@ -57,6 +57,8 @@ class ChainEffect(pygame.sprite.Sprite):
         self.image = pygame.Surface((0,0), pygame.SRCALPHA) # empty image
         self.rect = self.image.get_rect()                   # empty rect
 
+        self.zap_sound = pygame.mixer.Sound("sound/zap.wav") # sound when lightning chains
+
     def update(self) -> None:
         """called once per frame"""
         if len(self.chains) == 0: # finished queue
@@ -80,7 +82,8 @@ class ChainEffect(pygame.sprite.Sprite):
 
         if self.current_chain_distance == chain_vector.magnitude(): # reached end of chain - go to next
             self.current_chain_distance = 0
-
+            
+            self.zap_sound.play()
             self.chains[0].hit(self.damage)
             if self.chains[0].hp <= 0: # end chain if boat to chain to dies
                 self.kill()

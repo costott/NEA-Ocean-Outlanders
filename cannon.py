@@ -90,6 +90,12 @@ class Cannon(BoatFeature):
         if not self.holding_left_mouse and self.fire_timer == 0:
             cannon_pos = self.pos
             self.active_cannonball(cannon_pos, self.boat.angle+self.relative_angle, self.damage, self.shooter) # create cannonball
+
+            # get volume of cannon sound
+            sound_multiplier = 1 - (settings.current_run.player_boat.pos - self.pos).magnitude()/settings.CANNONS_MAXIMUM_SOUND_DISTANCE
+            sound_multiplier = max(sound_multiplier, 0) # make sure multiplier >= 0
+            self.cannon_sound.set_volume(settings.CANNONS_MAXIMUM_VOLUME*sound_multiplier)
+
             self.cannon_sound.play()
 
             self.fire_timer = self.fire_rate # start fire timer

@@ -118,6 +118,10 @@ ENEMY_HP_ADD = 20            # how much enemy hp increases per wave
 ENEMY_DMG_ADD = 1            # how much enemy damage increases per wave
 ENEMY_SPD_ADD =  0.1         # how much enemy speed increases per wave
 
+# CANNONS
+CANNONS_MAXIMUM_VOLUME = 1 # volume of cannons at the closest distance
+CANNONS_MAXIMUM_SOUND_DISTANCE = 700 # pixels away from player where cannons stop making sound
+
 # CANNONBALL
 CANNONBALL_SPEED = 100 # absolute speed of cannonball in pixels/second
 
