@@ -2,8 +2,8 @@ import pygame
 import random
 import csv
 
-from enemy_spawner import EnemySpawner
 from music_manager import music_manager
+from enemy_spawner import EnemySpawner
 from menu import HeadingMenu, Button
 from player_boat import PlayerBoat
 from map_piece import MapPiece
