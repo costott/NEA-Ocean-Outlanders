@@ -29,6 +29,9 @@ class Cannon(BoatFeature):
         self.shooter = shooter # who is using the cannon (player/enemy)
 
         self.active_cannonball = Cannonball # current cannonball the cannon is shooting
+
+        self.cannon_sound = pygame.mixer.Sound("sound/cannon.wav") # shoot cannon sound
+        self.cannon_sound.set_volume(0.75)                         # volume of sound
     
     def update(self) -> None:
         """called once per frame"""
@@ -87,6 +90,7 @@ class Cannon(BoatFeature):
         if not self.holding_left_mouse and self.fire_timer == 0:
             cannon_pos = self.pos
             self.active_cannonball(cannon_pos, self.boat.angle+self.relative_angle, self.damage, self.shooter) # create cannonball
+            self.cannon_sound.play()
 
             self.fire_timer = self.fire_rate # start fire timer
         
