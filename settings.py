@@ -1,7 +1,4 @@
 # screen dimensions, set by main.py
-from tkinter import E
-
-
 WIDTH = 0
 HEIGHT = 0
 
@@ -104,13 +101,16 @@ MIN_ENEMY_GOLD_AMOUNT = 1                # minimum gold drop when enemy drops go
 MAX_ENEMY_GOLD_AMOUNT = 3                # maximum gold drop when enemy drops gold
 ENEMY_HP_CHANCE = 10                     # % chance for enemy kill to give player hp
 ENEMY_HP_REGEN = 10                      # how much hp enemy kills give the player
+ENEMY_NEXT_STEP_DISTANCE = 20            # amount of pixels near the pathfind step for the enemy to move to the next
+ENEMY_SLOW_SPEED = 10                    # movement speed when enemy is changing direction
+ENEMY_NEW_PATH_RADIUS= 2*ENEMY_SHOOT_DISTANCE # distance from current to old player pos to re pathfind
 
 # ENEMY SPAWNING
 START_WAVE_NUM = 10          # amount of enemies in wave 1
 WAVE_BREAK_TIME = 10         # amount of seconds between waves
 MIN_SPAWN_TIME = 2           # minimum amount of seconds between enemy spawns
 MAX_SPAWN_TIME = 4           # maximum amount of seconds between enemy spawns
-MAX_SPAWN_DIVIDE = 3         # divides total enemies to spawn to get maximum enemies to spawn per spawn
+MAX_SPAWN_DIVIDE = 5         # divides total enemies to spawn to get maximum enemies to spawn per spawn
 MIN_SPAWN_DISTANCE = 700     # minimum distance (pixels) enemies can spawn
 MAX_SPAWN_DISTANCE = 1000    # maximum distance (pixels) enemies can spawn
 WAVE_ENEMY_INCREASE = 1      # amount of extra enemies per wave

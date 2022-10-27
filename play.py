@@ -1,9 +1,11 @@
 import pygame
 import random
+import pickle
 import csv
 
 from music_manager import music_manager
 from enemy_spawner import EnemySpawner
+from pathfind_node import PathfindNode
 from menu import HeadingMenu, Button
 from player_boat import PlayerBoat
 from map_piece import MapPiece
@@ -36,7 +38,9 @@ class Play:
         self.enemy_spawnable = pygame.sprite.Group() # places enemies can spawn
         self.boat_sprites = pygame.sprite.Group()    # all boats
         self.port_sprites = pygame.sprite.Group()    # all ports
+        self.base_nodes = []                         # list of all nodes in their un-edited state
         self.create_map()
+        self.base_nodes = pickle.dumps(self.base_nodes) # pickle the nodes
 
         self.camera = Camera()
 
@@ -87,17 +91,19 @@ class Play:
                     if csv_list[row][col] == "-1": continue # move on if empty
 
                     if layer_name == "colliders":
-                        MapPiece([self.collide_sprites], topleft)
+                        MapPiece([self.collide_sprites], topleft) # make a collider
                     elif layer_name == "rocks":
                         rock_image = pygame.image.load(f"map/rocks/rock{rock_nums[csv_list[row][col]]}.png").convert_alpha()
-                        MapPiece([self.screen_sprites, self.collide_sprites], topleft, rock_image)
+                        MapPiece([self.screen_sprites, self.collide_sprites], topleft, rock_image) # make a rock
                     elif layer_name == "player_spawn":
                         player_spawns.append(topleft)
                     elif layer_name == "spawnable":
-                        MapPiece([self.enemy_spawnable], topleft)
+                        MapPiece([self.enemy_spawnable], topleft)        # make a spawn location
+                        self.base_nodes.append(PathfindNode((col, row))) # make a pathfind node
                     elif layer_name == "ports":
-                        Port([self.screen_sprites, self.port_sprites], topleft)
+                        Port([self.screen_sprites, self.port_sprites], topleft) # make a port
 
+        # create player boat
         self.player_boat = PlayerBoat([self.screen_sprites, self.boat_sprites], random.choice(player_spawns))
     
     def update(self) -> None:
@@ -167,11 +173,37 @@ class Camera:
     def __init__(self):
         self.screen_centre = pygame.math.Vector2(settings.WIDTH/2, settings.HEIGHT/2) # vector centre of screen
 
+        self.freelook_speed = 500                    # pixels per second of freelook speed
+        self.freelook_enabled = False                # if freelook is enabled
+        self.freelook_offset = pygame.math.Vector2() # freelook amount
+
         self.camera_move = pygame.math.Vector2() # direction to move all sprites on map
     
     def update(self) -> None:
         """updates the distance to move sprites on screen"""
         self.camera_move =  self.screen_centre - pygame.math.Vector2(settings.current_run.player_boat.rect.center)
+
+        # self.freelook()
+    
+    def freelook(self) -> None:
+        """moves the camera in developer mode"""
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_TAB] and keys[pygame.K_f]: # enable freelook
+            self.freelook_enabled = True
+
+        if not self.freelook_enabled: return # only freelook if enabled
+
+        # MOVE CAMERA
+        if keys[pygame.K_w]:
+            self.freelook_offset.y += self.freelook_speed * 1/tools.get_fps()
+        if keys[pygame.K_s]:
+            self.freelook_offset.y -= self.freelook_speed * 1/tools.get_fps()
+        if keys[pygame.K_a]:
+            self.freelook_offset.x += self.freelook_speed * 1/tools.get_fps()
+        if keys[pygame.K_d]:
+            self.freelook_offset.x -= self.freelook_speed * 1/tools.get_fps()
+        
+        self.camera_move += self.freelook_offset # update camera move
 
 class ScreenSpriteGroup(pygame.sprite.Group):
     """sprite group for screen sprites"""
