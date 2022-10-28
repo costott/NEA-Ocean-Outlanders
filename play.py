@@ -190,7 +190,7 @@ class Camera:
         """updates the distance to move sprites on screen"""
         self.camera_move =  self.screen_centre - pygame.math.Vector2(settings.current_run.player_boat.rect.center)
 
-        self.freelook()
+        # self.freelook()
     
     def freelook(self) -> None:
         """moves the camera in developer mode"""
