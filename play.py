@@ -3,6 +3,7 @@ import random
 import pickle
 import csv
 
+from temporary_upgrades import TemporaryUpgrades, TemporaryUpgradeSpawner
 from music_manager import music_manager
 from enemy_spawner import EnemySpawner
 from pathfind_node import PathfindNode
@@ -46,6 +47,8 @@ class Play:
 
         self.enemy_spawner = EnemySpawner()
 
+        self.temporary_upgrades = TemporaryUpgrades()
+
         self.paused = False     # pauses/resumes the run
         self.in_shop = False    # opens/closes shop
 
@@ -78,7 +81,8 @@ class Play:
             "rocks": self.map_csv_list("rocks"),
             "ports": self.map_csv_list("ports"),
             "player_spawn": self.map_csv_list("player spawn"),
-            "spawnable": self.map_csv_list("spawnable")
+            "spawnable": self.map_csv_list("spawnable"),
+            "temporary_upgrades": self.map_csv_list("temporary upgrades")
         }
         map_height = len(layers["colliders"])   # number of map pieces vertically
         map_width = len(layers["colliders"][0]) # number of map pieces horizontally
@@ -102,6 +106,8 @@ class Play:
                         self.base_nodes.append(PathfindNode((col, row))) # make a pathfind node
                     elif layer_name == "ports":
                         Port([self.screen_sprites, self.port_sprites], topleft) # make a port
+                    elif layer_name == "temporary_upgrades":
+                        TemporaryUpgradeSpawner([self.screen_sprites], topleft) # make a temporary upgrade spawner
 
         # create player boat
         self.player_boat = PlayerBoat([self.screen_sprites, self.boat_sprites], random.choice(player_spawns))
@@ -121,6 +127,7 @@ class Play:
             self.screen_sprites.update()
 
             self.enemy_spawner.update()
+            self.temporary_upgrades.update()
 
             self.timer()
             self.check_pause()
@@ -183,7 +190,7 @@ class Camera:
         """updates the distance to move sprites on screen"""
         self.camera_move =  self.screen_centre - pygame.math.Vector2(settings.current_run.player_boat.rect.center)
 
-        # self.freelook()
+        self.freelook()
     
     def freelook(self) -> None:
         """moves the camera in developer mode"""

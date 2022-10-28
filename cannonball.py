@@ -18,13 +18,16 @@ class Cannonball(pygame.sprite.Sprite):
         self.angle = angle                                                      # angle cannonball is moving in
 
         self.damage = damage                                                    # amount of damage it deals
-        
         self.shooter = shooter                                                  # who shot the cannonball
+        self.speed = settings.CANNONBALL_SPEED
+        # player shot cannon and has faster cannons upgrade
+        if self.shooter == "player" and settings.current_run.temporary_upgrades.faster_cannons_timer.active:
+            self.speed *= settings.FASTER_CANNONS_CANNONBALL_SPEED_MULTIPLIER   # increase speed
     
     def update(self) -> None:
         """called once per frame"""
-        self.pos.x -= settings.CANNONBALL_SPEED * math.sin(self.angle*(math.pi/180)) * 1/tools.get_fps() # move x
-        self.pos.y -= settings.CANNONBALL_SPEED * math.cos(self.angle*(math.pi/180)) * 1/tools.get_fps() # move y
+        self.pos.x -= self.speed * math.sin(self.angle*(math.pi/180)) * 1/tools.get_fps() # move x
+        self.pos.y -= self.speed * math.cos(self.angle*(math.pi/180)) * 1/tools.get_fps() # move y
 
         self.collision()
 

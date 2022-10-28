@@ -75,7 +75,7 @@ END_MENU_BAR_RADIUS = 15        # border radius of bars
 BOAT_SCALE = 1              # multiplier for the boat image size
 BOAT_MAX_ANGLE_SPEED = 20   # maximum speed the boat can turn in pixels/second
 BOAT_BASE_SPEED = 50        # absolute speed of the boat in pixels/second
-COLLIDE_SIZE = 100          # 'radius' of square chunk for boat collision
+COLLIDE_SIZE = 160          # 'radius' of square chunk for boat collision
 
 # PLAYER BOAT
 PB_ANGLE_INP_ACCEL = BOAT_MAX_ANGLE_SPEED/3 # how much the angle velocity can change per second
@@ -121,6 +121,7 @@ ENEMY_SPD_ADD =  0.1         # how much enemy speed increases per wave
 # CANNONS
 CANNONS_MAXIMUM_VOLUME = 1 # volume of cannons at the closest distance
 CANNONS_MAXIMUM_SOUND_DISTANCE = 700 # pixels away from player where cannons stop making sound
+CANNONS_BASE_FIRE_RATE = 0.5 # seconds between shots
 
 # CANNONBALL
 CANNONBALL_SPEED = 100 # absolute speed of cannonball in pixels/second
@@ -194,6 +195,21 @@ DMG_UNIT_PRICE = 4            # amount of gold per 1 damage
 DMG_PERCENT_INCREASE = 0.05   # % increase of current damage to next upgrade
 SPEED_UNIT_PRICE = 10         # amount of gold per 1 speed
 SPEED_PERCENT_INCREASE = 0.01 # % increase of current speed to next upgrade
+
+# TEMPORARY UPGRADES  
+INVINCIBILITY_TIME = 120                         # time (in seconds) of invincibility
+DOUBLE_DAMAGE_TIME = 90                          # time (in seconds) of double damage
+ALWAYS_STEERING_TIME = 300                       # time (in seconds) of always steering
+FASTER_CANNONS_TIME = 120                        # time (in seconds) of faster cannons
+MIN_TEMPORARY_UPGRADE_SPAWN_TIME = 15            # min time for a spawner to spawn a temporary upgrade
+MAX_TEMPORARY_UPGRADE_SPAWN_TIME = 60            # max time for a spwanwer to spanw a temporary upgrade
+TEMPORARY_UPGRADE_PICKUP_RADIUS = 100            # distance away from upgrade spawner for player to pick it up
+TEMPORARY_UPGRADE_UI_WIDTH_SCALE = 0.06          # fraction of WIDTH of screen for width of UI element
+TEMPORARY_UPGRADE_UI_GAP_WIDTH_SCALE = 0.003     # fraction of WIDTH of screen for gaps between UI elements
+TEMPORARY_UPGRADE_UI_BORDER_WIDTH = 5            # width of progress bar around temporary upgrade UI
+TEMPORARY_UPGRADE_UI_TRANSPARENCY = 100          # transparency of UI elements when upgrade not active
+FASTER_CANNONS_FIRE_RATE_FRACTION = 2            # how much faster cannons fire
+FASTER_CANNONS_CANNONBALL_SPEED_MULTIPLIER = 1.5 # how much faster cannonballs move
 
 # LEADERBOARD
 LEADERBORD_HEADING_PADDING = 2              # gap between leaderboard heading and edge of heading/screen

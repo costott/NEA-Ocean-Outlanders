@@ -1,4 +1,5 @@
 import pygame
+import math
 
 import settings
 
@@ -38,3 +39,25 @@ def comma_number(number: float) -> str:
             comma_number += ","
         comma_number += digit
     return comma_number[::-1]
+
+def draw_filled_arc(surface: pygame.Surface, colour: pygame.Color, center_position: tuple[float, float], radius: float,
+                    start_angle: float, stop_angle: float, width: float = 1) -> None:
+    """draw filled arc between 2 angle points
+    \n0 = north, angle goes anticlockwise"""
+    angle_diff = stop_angle - start_angle # difference between angles
+    # MAKE SURE 0 < ANGLE_DIFF < 360
+    while angle_diff < 0:
+        angle_diff += 360
+    while angle_diff > 360: 
+        angle_diff -= 360
+    if angle_diff < 1: return # have to have at least 2 angles to plot (0 and 1)
+
+    angle_step = 0.5 # angle between adjacent points
+    points, inner_points = [], []
+    for step in range(int(angle_diff/angle_step)):
+        angle = start_angle + step*angle_step                    # angle of current point
+        angle_vector = pygame.math.Vector2(0, -1).rotate(-angle) # unit vector for current angle
+
+        points.append(center_position + radius*angle_vector)
+        inner_points.append(center_position + (radius-width)*angle_vector)
+    pygame.draw.polygon(surface, colour, points + inner_points[::-1])

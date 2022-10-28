@@ -33,24 +33,27 @@ class HUD:
     
     def draw(self) -> None:
         """draw the HUD"""
+        self.enemy_health_bars()
+        
         self.ports()
+        self.temporary_upgrades()
 
         # draw main hud elements  
         self.wave() 
         self.gold()
 
-        self.enemy_health_bars()
         self.player_health_bar()
 
         # mouse invisible when it shouldn't be (happens when switching out of cannons state)
         if not pygame.mouse.get_visible() and settings.current_run.player_boat.state != "cannons":
             pygame.mouse.set_visible(True)
 
-        if settings.current_run.player_boat.state == "steering":
+        if settings.current_run.player_boat.state == "steering" or (
+                            settings.current_run.temporary_upgrades.always_steering_timer.active):
             self.steering_hud()
-        elif settings.current_run.player_boat.state == "sailing":
+        if settings.current_run.player_boat.state == "sailing":
             self.sailing_hud()
-        elif settings.current_run.player_boat.state == "cannons":
+        if settings.current_run.player_boat.state == "cannons":
             self.cannons_hud()
     
     def steering_hud(self) -> None:
@@ -226,6 +229,48 @@ class HUD:
                 self.port_rect.centery -= 40
                 self.screen.blit(self.port_text, self.port_rect)
 
+    def temporary_upgrades(self) -> None:
+        """draws the temporary upgrades and their status"""
+        width = settings.WIDTH*settings.TEMPORARY_UPGRADE_UI_WIDTH_SCALE    # width of ui elements
+        upgrade_count = len(settings.current_run.temporary_upgrades.timers) # number of upgrades
+        # rect containing all ui elements for easy positioning and centering
+        total_temporary_upgrade_ui_rect = pygame.Rect(0,0,
+         (width*upgrade_count + settings.WIDTH*settings.TEMPORARY_UPGRADE_UI_GAP_WIDTH_SCALE*(upgrade_count-1)),
+         (width))
+        total_temporary_upgrade_ui_rect.midtop = (settings.WIDTH/2, 
+            settings.WIDTH*settings.TEMPORARY_UPGRADE_UI_GAP_WIDTH_SCALE)
+
+        # draw all temporary upgrades
+        for i, upgrade_timer in enumerate(settings.current_run.temporary_upgrades.timers):
+            # rect for positioning the UI element
+            element_rect = pygame.Rect(
+                total_temporary_upgrade_ui_rect.left+i*(width + settings.WIDTH*settings.TEMPORARY_UPGRADE_UI_GAP_WIDTH_SCALE),
+                total_temporary_upgrade_ui_rect.top, width, width)
+            
+            # surface to draw parts of the UI element
+            element_surface = pygame.Surface((width, width), flags=pygame.SRCALPHA).convert_alpha()
+            element_surface_rect = element_surface.get_rect()
+
+            angle = 360 * (upgrade_timer.timer/upgrade_timer.start_time) # angle for progress border
+            # draw progress border to surface
+            tools.draw_filled_arc(element_surface, settings.BROWN, element_surface_rect.center, width/2, 0, angle, 5)
+
+            # draw background circle to surface
+            pygame.draw.circle(element_surface, settings.LIGHT_BROWN, element_surface_rect.center, 
+                               width/2-settings.TEMPORARY_UPGRADE_UI_BORDER_WIDTH + 1)
+
+            # get and draw upgrade icon to surface
+            icon = settings.current_run.temporary_upgrades.icons[i]
+            icon = pygame.transform.rotozoom(icon, 0, 0.8)
+            icon_rect = icon.get_rect(center = element_surface_rect.center)
+            element_surface.blit(icon, icon_rect)
+
+            # make surface transparent if the upgrade's not active
+            if not upgrade_timer.active: element_surface.set_alpha(settings.TEMPORARY_UPGRADE_UI_TRANSPARENCY)
+
+            # draw UI element to screen
+            self.screen.blit(element_surface, element_rect)
+            
 class CannonballHud:
     """cannonball box to be displayed to the HUD"""
     def __init__(self, number: int, image_path: str, centre: tuple[float, float], type: Cannonball):

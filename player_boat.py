@@ -68,17 +68,17 @@ class PlayerBoat(Boat):
 
     def states(self) -> None:
         """controls what the boat is doing in different states"""
-        if self.state == "steering":
+        if self.state == "steering" or settings.current_run.temporary_upgrades.always_steering_timer.active:
             self.steer()
-        elif self.state == "sailing":
+        if self.state == "sailing":
             self.sailing()
-        elif self.state == "cannons":
+        if self.state == "cannons":
             self.control_cannon()
-        elif self.state == "enter switching":
+        if self.state == "enter switching":
             self.enter_switching()
-        elif self.state[0:14] == "exit switching":
+        if self.state[0:14] == "exit switching":
             self.exit_switching()
-        elif self.state == "switching":
+        if self.state == "switching":
             self.switching()
     
     def steer(self) -> None:
@@ -123,7 +123,13 @@ class PlayerBoat(Boat):
         for cannon in self.cannons: cannon.update() # update all cannons
         self.make_main_boat_image()                 # remake boat image
 
+        self.active_cannon.fire_rate = settings.CANNONS_BASE_FIRE_RATE if not(
+                    settings.current_run.temporary_upgrades.faster_cannons_timer.active
+                    ) else settings.CANNONS_BASE_FIRE_RATE/settings.FASTER_CANNONS_FIRE_RATE_FRACTION
+
         if pygame.mouse.get_pressed()[0]: # left mouse clicked
+            self.active_cannon.damage = self.damage if (not 
+                    settings.current_run.temporary_upgrades.double_damage_timer.active) else self.damage*2
             self.active_cannon.shoot()
     
     def enter_switching(self) -> None:
@@ -195,6 +201,9 @@ class PlayerBoat(Boat):
 
     def hit(self, damage: float) -> None:
         """player boat takes damage"""
+        # don't take damage if invincibility temporary upgrade is active
+        if settings.current_run.temporary_upgrades.invincibility_timer.active: return
+
         self.hp -= damage
         self.hit_sound.play()
 
