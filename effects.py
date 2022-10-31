@@ -64,6 +64,9 @@ class ChainEffect(pygame.sprite.Sprite):
         if len(self.chains) == 0: # finished queue
             self.kill()
             return 
+        if self.chains[0].hp <= 0: # end chain if boat to chain to dies
+            self.kill()
+            return
         
         chain_vector = self.chains[0].pos - self.current_chain_pos # get whole vector of chain
 

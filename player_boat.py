@@ -95,6 +95,9 @@ class PlayerBoat(Boat):
     
     def sailing(self) -> None:
         """change the speed the boat is moving"""
+        # change max speed in case upgraded mid game
+        self.max_speed = settings.GAME.player_stats.speed
+
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_w]: # increase speed
@@ -123,9 +126,12 @@ class PlayerBoat(Boat):
         for cannon in self.cannons: cannon.update() # update all cannons
         self.make_main_boat_image()                 # remake boat image
 
+        # set fire rate in case double fire rate
         self.active_cannon.fire_rate = settings.CANNONS_BASE_FIRE_RATE if not(
                     settings.current_run.temporary_upgrades.faster_cannons_timer.active
                     ) else settings.CANNONS_BASE_FIRE_RATE/settings.FASTER_CANNONS_FIRE_RATE_FRACTION
+        # set damage in case upgraded mid-run
+        self.active_cannon.damage = settings.GAME.player_stats.damage
 
         if pygame.mouse.get_pressed()[0]: # left mouse clicked
             self.active_cannon.damage = self.damage if (not 
