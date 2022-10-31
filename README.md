@@ -17,5 +17,5 @@ In GitHub on the web, click the green "Code" button near the top of this repo, a
 ### Step 2 - Extract ZIP
 Go to where the ZIP file was downloaded (e.g. downloads folder), right click on the "NEA-Ocean-Outlanders-master.zip" file and extract/unpack the ZIP.
 
-### Step 2 - Run the game
+### Step 3 - Run the game
 Navigate over to the unpacked/extracted folder, and open main.py.
