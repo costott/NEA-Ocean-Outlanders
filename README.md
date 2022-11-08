@@ -8,7 +8,7 @@ NEA project by [costott](https://github.com/costott)
 
 ## Requirements
 ⚙️ Python 3.9 or later <br />
-⚙️ Pygame 1.9.6
+⚙️ Pygame 2.1.2
 
 ## Installation
 ### Step 1 - Download the ZIP file
