@@ -58,6 +58,8 @@ class EnemyBoat(Boat):
         if self.state == "shooting":
             self.try_shoot()
         
+        self.check_despawn()
+        
         # FOR DEBUGGING
         # for path_pos in self.path:
         #     rect = pygame.Rect(path_pos*settings.PIECE_SIZE, (settings.PIECE_SIZE, settings.PIECE_SIZE))
@@ -319,3 +321,10 @@ class EnemyBoat(Boat):
             settings.current_run.player_boat.hp += settings.ENEMY_HP_REGEN # give hp
             # limit maximum hp
             settings.current_run.player_boat.hp = min(settings.current_run.player_boat.hp, settings.GAME.player_stats.hp)
+    
+    def check_despawn(self) -> None:
+        """despawns the enemy if it's too far away"""
+        if self.pos.distance_to(settings.current_run.player_boat.pos) >= settings.ENEMY_DESPAWN_DISTANCE:
+            self.kill() # remove enemy from all groups
+            # decrease spawned enemies so a new one will spawn
+            settings.current_run.enemy_spawner.wave_spawned_enemies -= 1

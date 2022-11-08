@@ -9,9 +9,9 @@ class Port(MapPiece):
     def __init__(self, groups: list[pygame.sprite.Group], topleft: tuple):
         super().__init__(groups, topleft, pygame.image.load(settings.PORT_IMAGE).convert_alpha())
 
-        self.centre = pygame.math.Vector2(self.rect.center) # vector of centre of dock
+        self.centre = pygame.math.Vector2(self.rect.center) # vector of centre of port
 
-        self.player_in_range = False # stores whether the player's in range of the dock
+        self.player_in_range = False # stores whether the player's in range of the port
 
         self.ring_radius = settings.PORT_RING_MIN_RAD # current radius of ring for HUD
         self.increasing = True                        # current direction of radius change

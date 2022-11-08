@@ -96,7 +96,7 @@ ENEMY_ACCELERATION = BOAT_BASE_SPEED/1.5 # change in speed per second
 ENEMY_BASE_HP = 100                      # starting HP of enemies
 ENEMY_BASE_DMG = 10                      # starting damage of enemies
 ENEMY_BASE_SPD = BOAT_BASE_SPEED         # starting speed of enemies
-ENEMY_GOLD_CHANCE = 40                   # % chance for enemy to drop gold
+ENEMY_GOLD_CHANCE = 50                   # % chance for enemy to drop gold
 MIN_ENEMY_GOLD_AMOUNT = 1                # minimum gold drop when enemy drops gold
 MAX_ENEMY_GOLD_AMOUNT = 3                # maximum gold drop when enemy drops gold
 ENEMY_HP_CHANCE = 10                     # % chance for enemy kill to give player hp
@@ -117,6 +117,7 @@ WAVE_ENEMY_INCREASE = 1      # amount of extra enemies per wave
 ENEMY_HP_ADD = 20            # how much enemy hp increases per wave
 ENEMY_DMG_ADD = 1            # how much enemy damage increases per wave
 ENEMY_SPD_ADD =  0.1         # how much enemy speed increases per wave
+ENEMY_DESPAWN_DISTANCE = 1500# how far away from the player where enemies will despawn 
 
 # CANNONS
 CANNONS_MAXIMUM_VOLUME = 1 # volume of cannons at the closest distance
