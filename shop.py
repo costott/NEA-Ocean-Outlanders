@@ -15,7 +15,10 @@ class ShopButton(Button):
                           settings.SHOP_BUTTON_HEIGHT_SCALE)
         super().__init__("", main_rect_size, 0, center_pos, (0,0,0), (0,0,0), (0,0,0), action)
 
-        self.price_font = pygame.font.Font(None, 100) # font for price text
+        self.price_font = pygame.font.Font(None, 60) # font for price text
+        self.coin_image = pygame.image.load("assets/coin.png").convert_alpha()
+        self.coin_image = pygame.transform.rotozoom(self.coin_image, 0, 0.5)
+        self.coin_rect = self.coin_image.get_rect()
 
         self.make_rects()        # create initial rects
         self.change_price(price) # create initial price image
@@ -38,8 +41,18 @@ class ShopButton(Button):
         """changes the price once it's bought"""
         self.price = new_price # update price in case it changed
 
-        self.price_text = self.price_font.render(str(self.price), True, 'white')
-        self.price_text_rect = self.price_text.get_rect(center = self.price_rect.center)
+        # get text and rect of price
+        self.price_text = self.price_font.render(f"{self.price}", True, 'white')
+        self.price_text_rect = self.price_text.get_rect()
+
+        # put the price text in the correct centre of the box
+        combined_rect = pygame.Rect(0,0,self.price_text_rect.width+self.coin_rect.width,
+                                    self.coin_rect.height)
+        combined_rect.center = self.price_rect.center
+        self.price_text_rect.midleft = combined_rect.midleft
+        self.coin_rect.midright = combined_rect.midright
+        self.coin_rect.y -= 3
+        self.coin_rect.x += 5
     
     def update(self) -> None:
         """called once per frame"""
@@ -57,6 +70,7 @@ class ShopButton(Button):
         pygame.draw.rect(self.screen, settings.LIGHT_BROWN, self.price_rect, 
                          border_radius=settings.SHOP_BUTTON_BORDER_RADIUS)
         self.screen.blit(self.price_text, self.price_text_rect)
+        self.screen.blit(self.coin_image, self.coin_rect)
 
 class SingleBuyShopButton(ShopButton):
     """shop button that can only be bought once"""
@@ -196,12 +210,18 @@ class Shop(HeadingMenu):
         # DRAW GOLD UNDER HEADING
         gold_text = self.gold_font.render(f"{tools.comma_number(settings.GAME.player_stats.gold)} gold", True, 
                                           'white')
+        # box for gold to be on
         gold_container = gold_text.get_rect().inflate(settings.SHOP_GOLD_PADDING, settings.SHOP_GOLD_PADDING)
+        # border around box
         gold_border = gold_container.inflate(settings.HEADING_BORDER_SIZE*2, settings.HEADING_BORDER_SIZE*2)
-        gold_container.midtop = self.heading_box.midbottom                 # position rects
+
+        # position rects
+        gold_container.midtop = self.heading_box.midbottom                 
         gold_border.center = gold_container.center
         gold_rect = gold_text.get_rect(center=gold_container.center)
-        pygame.draw.rect(self.screen, settings.DARK_BROWN, gold_border)    # draw images
+
+        # draw images
+        pygame.draw.rect(self.screen, settings.DARK_BROWN, gold_border)
         pygame.draw.rect(self.screen, settings.LIGHT_BROWN, gold_container)
         self.screen.blit(gold_text, gold_rect)
 
